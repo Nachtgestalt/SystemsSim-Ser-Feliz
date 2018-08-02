@@ -1,0 +1,73 @@
+<ion-header no-border>
+  <ion-navbar color="white" hideBackButton>
+    <ion-buttons start>
+      <button ion-button clear (click)="goToMenu()">
+        <img src="assets/img/logo_bw.png" width="24" alt="">
+      </button>
+    </ion-buttons>
+    <ion-title>
+      <button ion-button icon-only clear>
+        <ion-icon name="ios-chatbubbles" color="danger"></ion-icon>
+      </button>
+    </ion-title>
+  </ion-navbar>
+
+  <ion-toolbar color="white">
+    <ion-searchbar placeholder="Busca Matches"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <div class="wrapper-xs padder">
+      <div ion-text color="danger" class="font-bold">
+        Nuevos Matches
+        <ion-badge color="danger">1</ion-badge>
+      </div>
+    </div>
+    <div class="wrapper-xs padder matches-thumbs">
+      <ion-scroll scrollX="true">
+        <div class="thumbs-wrapper">
+          <div class="matches-thumb" *ngFor="let i of [0,1,2,3,4,5,6]" (click)="goToChat(true)">
+            <demo-avatar [sizeClass]="'thumb-md'"></demo-avatar>
+            <div class="online-status"></div>
+            <div class="text-center text-ellipsis">Doctor</div>
+          </div>
+        </div>
+      </ion-scroll>
+    </div>
+  </div>
+
+  <div>
+    <div class="wrapper-xs padder">
+      <div ion-text color="danger" class="font-bold">
+        Mensajes
+      </div>
+    </div>
+    <div class="wrapper-xs padder-sm">
+      <ion-row align-items-center (click)="goToChat()">
+        <ion-col col-auto>
+          <demo-avatar [sizeClass]="'thumb-md'"></demo-avatar>
+        </ion-col>
+        <ion-col>
+          <div>
+            <div class="text-lg">Juan Hernandez</div>
+            <!--<div class="text-muted">Sent you a GIPHY</div>-->
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row align-items-center (click)="goToChat()">
+        <ion-col col-auto>
+          <demo-avatar [sizeClass]="'thumb-md'"></demo-avatar>
+        </ion-col>
+        <ion-col>
+          <div>
+            <div class="text-lg">Pedro Salazar</div>
+            <!--<div class="text-muted">Sent you a GIPHY</div>-->
+          </div>
+        </ion-col>
+      </ion-row>
+    </div>
+  </div>
+
+</ion-content>

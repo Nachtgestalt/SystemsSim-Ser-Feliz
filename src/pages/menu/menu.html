@@ -1,0 +1,70 @@
+<ion-header>
+
+  <ion-navbar hideBackButton>
+
+    <ion-buttons left start>
+      <button ion-button icon-only (click)="goToMe()">
+        <ion-icon name="md-person" color="muted"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title>
+      <img src="../../assets/img/se_feliz.png" width="64" alt="">
+    </ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="goToMessaging()">
+        <ion-icon name="ios-chatbubbles" color="muted"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-grid>
+    <ion-row class="m-t-md">
+      <ion-col col-6 class="text-center">
+        <ion-card (click)="goToExplore()">
+          <img src="../../assets/img/smile.svg" class="img-button"/>
+          <ion-card-content>
+            <h3>Encuentra a tu teraputa</h3>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col col-6 class="text-center">
+        <ion-card (click)="title='Hola'">
+          <img src="../../assets/img/chart.svg" class="img-button"/>
+          <ion-card-content>
+            <h3>Identificación y seguimiento</h3>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row class="m-t-xl">
+      <ion-col col-6 class="text-center">
+        <ion-card (click)="title='Hola'">
+          <img src="../../assets/img/relax.svg" class="img-button"/>
+          <ion-card-content>
+            <h3>Relajación, objetivos y habitos</h3>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col col-6 class="text-center">
+        <ion-card (click)="title='Hola'">
+          <img src="../../assets/img/medal.svg" class="img-button"/>
+          <ion-card-content>
+            <h3>Mira tus avances</h3>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

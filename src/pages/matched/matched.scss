@@ -1,0 +1,55 @@
+page-matched {
+  text-align: center;
+  .bg-blur {
+    background: url('../../assets/img/blur.png') center center transparent;
+    background-size: cover;
+    color: white;
+  }
+
+  .btn-gd {
+    padding: 16px 3em;
+    font-weight: 700;
+    background: linear-gradient(260deg,#fd267d,#ff7854);
+  }
+
+  .btn-outline {
+    padding: 16px 3em;
+    border: 2px solid #fd267d;
+    color: white;
+  }
+
+  .match-avatar {
+    margin: 16px 4px;
+    animation: fromLeft 1s ease-in;
+    &.match-right {
+      animation-name: fromRight;
+    }
+  }
+
+  .fadeIn {
+    animation: fadeIn 1s 1s ease-in;
+  }
+
+  @keyframes fromLeft {
+    0% {
+      transform: translate3d(-100px, 0, 0);
+    }
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+  @keyframes fromRight {
+    0% {
+      transform: translate3d(100px, 0, 0);
+    }
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {opacity: 0}
+    to {opacity: 1}
+  }
+
+}

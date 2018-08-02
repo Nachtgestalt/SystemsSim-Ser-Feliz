@@ -1,0 +1,84 @@
+<ion-content>
+  <div layout vertical center>
+    <div class="bg-style text-center">
+      <img src="../../assets/img/se_feliz2.png" class="avatar" alt="">
+    </div>
+
+    <!--<ion-slides #slides pager flex>-->
+    <!--<ion-slide *ngFor="let slide of introSlides">-->
+    <!--<h3 class="font-thin" [innerHTML]="slide.title"></h3>-->
+    <!--<img [src]="slide.image">-->
+    <!--</ion-slide>-->
+    <!--</ion-slides>-->
+
+    <div class="text-center" padding>
+
+      <form (ngSubmit)="login()" [formGroup]="loginForm">
+
+        <ion-item class="mx-30">
+          <ion-label color="primary" floating>Email</ion-label>
+          <ion-input type="text"
+                     formControlName="email"></ion-input>
+        </ion-item>
+
+        <ion-item class="mx-30">
+          <ion-label color="primary" floating>Contraseña</ion-label>
+          <ion-input type="password"
+                     formControlName="password"></ion-input>
+        </ion-item>
+
+
+        <div padding-horizontal class="m-t-md">
+          <div class="form-error">{{loginError}}</div>
+          <button ion-button block round color="bg"
+                  type="submit" [disabled]="!loginForm.valid">
+            Ingresar
+          </button>
+        </div>
+      </form>
+
+      <p class="text-center"> Ó </p>
+
+      <button ion-button round block
+              icon-left
+              color="facebook" (click)="signInWithFacebook()">
+        <ion-icon name="logo-facebook"></ion-icon>
+        INGRESAR CON FACEBOOK
+      </button>
+
+      <button ion-button round block
+              icon-left
+              color="google" (click)="signInGoogle()">
+        <ion-icon name="logo-google"></ion-icon>
+        INGRESAR CON GOOGLE
+      </button>
+
+      <!--<button ion-button round block-->
+      <!--icon-left-->
+      <!--color="muted" outline (click)="goToSwipe()">-->
+      <!--<ion-icon name="mail"></ion-icon>-->
+      <!--INGRESAR CON CORREO-->
+      <!--</button>-->
+
+      <!--<div>-->
+      <!--<button ion-button round block color="muted" outline (click)="goToSignUp()">REGISTRATE</button>-->
+      <!--</div>-->
+
+      <div class="login-footer">
+        <p>
+          <a href="#">¿Olvidaste tu contraseña?</a>
+        </p>
+        <p>
+          ¿No tienes cuenta? <a (click)="goToSignUp()">Registrate Ahora</a>
+        </p>
+      </div>
+
+      <div class="wrapper text-muted">
+        <p>No publicamos nada en Facebook.
+          <br>
+          Al iniciar sesión acepta nuestros <span class="text-u-l">Terminos de uso</span> y <span class="text-u-l">Política de privacidad</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</ion-content>

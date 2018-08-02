@@ -1,0 +1,91 @@
+page-me {
+  .button-muted {
+    border-radius: 999em;
+    font-size: 14px;
+    font-weight: 700;
+    width: 48px;
+    height: 48px;
+    background-color: color($colors, light);
+    color: lighten(color($colors, muted), 20%);
+  }
+
+  .me-bottom-bg {
+    overflow: hidden;
+    background-color: color($colors, bg);
+  }
+
+  .big-thumb {
+    width: 128px;
+    display: inline-block;
+  }
+
+  @media screen and (max-width: 320px) {
+    .big-thumb {
+      width: 128px;
+    }
+  }
+
+  @media screen and (min-width: 321px) {
+    .big-thumb {
+      width: 160px;
+      margin-top: 36px;
+    }
+  }
+
+  .oval {
+    width: 100%;
+    height: 60px;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 4px 9px 0 rgba(213,218,224,.3);
+    position: relative;
+    top: -30px;
+  }
+
+  .bottom-slides {
+    height: 100px;
+    margin-top: -20px;
+    margin-bototm: 8px
+  }
+
+  .swiper-slide {
+    font-size: 14px;
+  }
+
+  .swiper-container-horizontal > .swiper-pagination-bullets {
+    bottom: -2px;
+  }
+
+  .swiper-pagination-bullet-active {
+    &:nth-child(1) {
+      background: color($colors, violet);
+    }
+    &:nth-child(2) {
+      background: color($colors, superlike);
+    }
+    &:nth-child(3) {
+      background: color($colors, star);
+    }
+    &:nth-child(4) {
+      background: color($colors, superlike);
+    }
+  }
+
+  .slide-title {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  @media screen and (max-width: 320px) {
+    .slide-title {
+      font-size: 20px;
+    }
+  }
+
+  @media screen and (min-width: 321px) {
+    .slide-title {
+      font-size: 28px;
+    }
+  }
+
+}

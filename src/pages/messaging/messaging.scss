@@ -1,0 +1,25 @@
+page-messaging {
+  .matches-thumbs {
+    ion-scroll {
+      height: 96px;
+      white-space: nowrap;
+      .matches-thumb {
+        display: inline-block;
+        width: 64px;
+        margin-right: 12px;
+        position: relative;
+        margin-bottom: 12px;
+        .online-status {
+          background-color: color($colors, danger);
+          position: absolute;
+          right: -8px;
+          top: 26px;
+          width: 16px;
+          height: 16px;
+          border-radius: 999em;
+          border: 3px solid white;
+        }
+      }
+    }
+  }
+}

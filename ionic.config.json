@@ -1,5 +1,7 @@
 {
   "name": "Ser-feliz",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic-angular"
 }
