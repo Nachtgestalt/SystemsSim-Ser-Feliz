@@ -1,0 +1,25 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>¿Que tipo de usuario eres?</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <h2 class="text-center margin-top20">Necesitamos saber más de ti para ofrecerte la mejor experiencia.</h2>
+  <button ion-button block color="primary" class="margin-top20"
+          (click)="goToSignUpName('terapeuta')">
+    ¿Eres terapeuta?
+  </button>
+
+  <h3 class="text-center margin-top20 linea"><span>O</span></h3>
+
+  <button ion-button block color="bg" class="margin-top20"
+          (click)="goToSignUpName('usuario')">
+    ¿Eres usuario?
+  </button>
+
+</ion-content>

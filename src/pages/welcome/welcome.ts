@@ -1,6 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
 import {App, IonicPage, NavController, NavParams, Slides} from 'ionic-angular';
-import {SignUpPage} from "../sign-up/sign-up";
 import {ExplorePage} from "../explore/explore";
 import {UserProvider} from "../../providers/user/user";
 
@@ -13,6 +12,7 @@ import {GooglePlus} from '@ionic-native/google-plus';
 import {MenuPage} from "../menu/menu";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthProvider} from "../../providers/auth/auth";
+import {TypeOfUserPage} from "../type-of-user/type-of-user";
 
 @IonicPage()
 @Component({
@@ -72,7 +72,7 @@ export class WelcomePage {
   }
 
   goToSignUp() {
-    this.navCtrl.push(SignUpPage, {}, {
+    this.navCtrl.push(TypeOfUserPage, {}, {
       direction: 'forward'
     });
   }

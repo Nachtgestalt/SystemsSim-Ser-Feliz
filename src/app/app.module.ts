@@ -6,7 +6,6 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
 import {WelcomePage} from "../pages/welcome/welcome";
-import {SignUpPage} from "../pages/sign-up/sign-up";
 import {ExplorePage} from "../pages/explore/explore";
 import { UserProvider } from '../providers/user/user';
 
@@ -18,6 +17,8 @@ import { GooglePlus } from '@ionic-native/google-plus';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import {AngularFirestoreModule} from "angularfire2/firestore";
+
 import {MenuPage} from "../pages/menu/menu";
 import {MePage} from "../pages/me/me";
 import {MessagingPage} from "../pages/messaging/messaging";
@@ -29,13 +30,23 @@ import { AuthProvider } from '../providers/auth/auth';
 import {MatchedPage} from "../pages/matched/matched";
 import {SwingModule} from "angular2-swing";
 import {ElasticModule} from "ng-elastic";
+import { TherapistProvider } from '../providers/therapist/therapist';
+import {TypeOfUserPage} from "../pages/type-of-user/type-of-user";
+import {SignUpNamePage} from "../pages/sign-up-name/sign-up-name";
+import {SignUpBirthdayPage} from "../pages/sign-up-birthday/sign-up-birthday";
+import {SignUpGenderPage} from "../pages/sign-up-gender/sign-up-gender";
+import {SignUpCredentialsPage} from "../pages/sign-up-credentials/sign-up-credentials";
 
 @NgModule({
   declarations: [
     MyApp,
     WelcomePage,
     ExplorePage,
-    SignUpPage,
+    TypeOfUserPage,
+    SignUpNamePage,
+    SignUpBirthdayPage,
+    SignUpGenderPage,
+    SignUpCredentialsPage,
     MenuPage,
     MePage,
     MessagingPage,
@@ -54,6 +65,7 @@ import {ElasticModule} from "ng-elastic";
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    AngularFirestoreModule,
     NgxErrorsModule
   ],
   bootstrap: [IonicApp],
@@ -61,7 +73,11 @@ import {ElasticModule} from "ng-elastic";
     MyApp,
     WelcomePage,
     ExplorePage,
-    SignUpPage,
+    SignUpNamePage,
+    SignUpBirthdayPage,
+    SignUpGenderPage,
+    SignUpCredentialsPage,
+    TypeOfUserPage,
     MenuPage,
     MePage,
     MessagingPage,
@@ -75,7 +91,8 @@ import {ElasticModule} from "ng-elastic";
     UserProvider,
     Facebook,
     GooglePlus,
-    AuthProvider
+    AuthProvider,
+    TherapistProvider
   ]
 })
 export class AppModule {}

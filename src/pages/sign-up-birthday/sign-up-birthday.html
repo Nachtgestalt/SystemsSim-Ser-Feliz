@@ -1,0 +1,31 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Fecha de nacimiento</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <img src="../../assets/img/calendar.svg" class="img-button"/>
+  <h3 class="text-center margin-top10">¿Cuando naciste?</h3>
+  <p class="text-center">Elige tu fecha de nacimiento</p>
+
+  <form [formGroup]="form">
+    <ion-grid class="margin-top10">
+      <ion-row>
+        <ion-col col-12 col-md-8 offset-md-2>
+          <ion-item>
+            <ion-input type="date" formControlName="fecha_nacimiento"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <button ion-button block color="bg"
+              class="margin-top20" (click)="goToSignUpGender()">
+        Siguiente
+      </button>
+    </ion-grid>
+  </form>
+</ion-content>

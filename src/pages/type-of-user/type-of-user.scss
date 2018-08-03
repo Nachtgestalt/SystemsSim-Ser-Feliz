@@ -1,0 +1,39 @@
+page-type-of-user {
+
+  .margin-top20{
+    margin-top: 20%!important;
+  }
+
+  .margin-top10{
+    margin-top: 10%!important;
+  }
+
+  h3 {
+    font-size: 20px;
+    margin-top: 30px;
+    text-align: center;
+  }
+  h3.linea {
+    position: relative;
+    z-index: 1;
+  }
+  h3.linea:before {
+    border-top: 1px solid #0f0f0f;
+    content: "";
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 95%;
+    z-index: -1;
+  }
+  h3.linea span {
+
+    background: #fff;
+    padding: 0 15px;
+  }
+
+
+}

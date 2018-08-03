@@ -1,0 +1,36 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Sexo</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <h3 class="text-center margin-top20">¿Eres hombre o mujer?</h3>
+  <p class="text-center">Selecciona tu sexo</p>
+
+  <form [formGroup]="form">
+    <ion-list formControlName="sexo" radio-group inset>
+      <ion-item class="margin-top10">
+        <ion-icon name="man" item-left></ion-icon>
+        <ion-label>Hombre</ion-label>
+        <ion-radio value="hombre" ></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon name="woman" item-left></ion-icon>
+        <ion-label>Mujer</ion-label>
+        <ion-radio value="mujer"></ion-radio>
+      </ion-item>
+    </ion-list>
+
+    <button ion-button block color="bg"
+            class="margin-top20" (click)="goToSignUpCredentials()">
+      Siguiente
+    </button>
+  </form>
+
+</ion-content>

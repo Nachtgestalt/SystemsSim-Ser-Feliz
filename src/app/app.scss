@@ -33,6 +33,27 @@
   color: color($colors, danger);
 }
 
+
+.margin-top20{
+  margin-top: 20%!important;
+}
+
+.margin-top10{
+  margin-top: 10%!important;
+}
+
+.avatar {
+  /* cambia estos dos valores para definir el tamaño de tu círculo */
+  height: 160px;
+  width: 160px;
+  /* los siguientes valores son independientes del tamaño del círculo */
+  background-repeat: no-repeat;
+  background-position: 50%;
+  border-radius: 150px;
+  background-size: 100% auto;
+  margin: 3px;
+}
+
 @media only screen and (orientation: landscape)  {
   .modal-wrapper {
     position: absolute;

@@ -9,8 +9,8 @@ import {MenuPage} from "../pages/menu/menu";
   templateUrl: 'app.html'
 })
 export class MyApp {
-  // rootPage:any = WelcomePage;
-  rootPage:any = MenuPage;
+  rootPage:any = WelcomePage;
+  // rootPage:any = MenuPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {

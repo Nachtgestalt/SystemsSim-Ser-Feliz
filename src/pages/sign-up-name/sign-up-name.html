@@ -1,0 +1,42 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Nombre</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <h3 class="text-center margin-top20">¿Como te llamas?</h3>
+  <p class="text-center">Ingresa el nombre que usas normalmente</p>
+
+  <form [formGroup]="form">
+    <ion-grid class="margin-top10">
+      <ion-row>
+        <ion-col col-6>
+          <ion-item>
+            <ion-label color="primary" floating>Nombre</ion-label>
+            <ion-input type="text" formControlName="nombre"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col col-6>
+          <ion-item>
+            <ion-label color="primary" floating>Apellidos</ion-label>
+            <ion-input type="text" formControlName="apellidos"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+
+      <button ion-button block color="bg"
+              class="margin-top20" (click)="goToSignUpBirthday()">
+        Siguiente
+      </button>
+
+    </ion-grid>
+  </form>
+
+</ion-content>
