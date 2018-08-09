@@ -34,6 +34,8 @@ export class SignUpNamePage {
     let nombre = this.form.get('nombre').value;
     let apellidos = this.form.get('apellidos').value;
     this.navCtrl.push(SignUpBirthdayPage, {
+      key: this.navParams.get('key'),
+      provider: this.navParams.get('provider'),
       tipoUsuario: this.navParams.get('tipoUsuario'),
       nombre: nombre,
       apellidos: apellidos

@@ -1,7 +1,7 @@
 <ion-content>
   <div layout vertical center>
     <div class="bg-style text-center">
-      <img src="../../assets/img/se_feliz2.png" class="avatar" alt="">
+      <img src="../../assets/img/ser_feliz2.png" class="avatar" alt="">
     </div>
 
     <div class="text-center" padding>
@@ -9,19 +9,17 @@
       <form (ngSubmit)="login()" [formGroup]="loginForm">
 
         <ion-item class="mx-30">
-          <ion-label color="primary" floating>Email</ion-label>
-          <ion-input type="text"
+          <ion-input type="text" placeholder="Correo electronico"
                      formControlName="email"></ion-input>
         </ion-item>
 
         <ion-item class="mx-30">
-          <ion-label color="primary" floating>Contraseña</ion-label>
-          <ion-input type="password"
+          <ion-input type="password" placeholder="Contraseña"
                      formControlName="password"></ion-input>
         </ion-item>
 
 
-        <div padding-horizontal class="m-t-md">
+        <div padding-horizontal>
           <div class="form-error">{{loginError}}</div>
           <button ion-button block round color="bg"
                   type="submit" [disabled]="!loginForm.valid">
@@ -55,9 +53,8 @@
         </p>
       </div>
 
-      <div class="wrapper text-muted">
-        <p>No publicamos nada en Facebook.
-          <br>
+      <div class="wrapper-sm text-muted">
+        <p>
           Al iniciar sesión acepta nuestros <span class="text-u-l">Terminos de uso</span> y <span class="text-u-l">Política de privacidad</span>
         </p>
       </div>

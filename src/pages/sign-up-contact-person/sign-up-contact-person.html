@@ -1,0 +1,30 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Persona de contacto</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <h3 class="text-center margin-top20">Persona de contacto para emergencias</h3>
+  <p class="text-center">Ingresa los datos de una persona para contactar en caso de emergencias</p>
+
+  <form [formGroup]="form">
+    <ion-item>
+      <ion-label color="primary" floating>Nombre y Apellidos</ion-label>
+      <ion-input type="text" formControlName="nombre"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="primary" floating>Teléfono</ion-label>
+      <ion-input type="tel" formControlName="telefono"></ion-input>
+    </ion-item>
+
+    <button ion-button block color="bg" [disabled]="!form.valid"
+            class="margin-top20" (click)="goToNextStep()">
+      {{msgButton}}
+    </button>
+  </form>
+
+</ion-content>

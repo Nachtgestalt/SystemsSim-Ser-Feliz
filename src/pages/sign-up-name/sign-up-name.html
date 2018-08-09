@@ -6,7 +6,6 @@
 
 </ion-header>
 
-
 <ion-content padding>
 
   <h3 class="text-center margin-top20">¿Como te llamas?</h3>
@@ -30,8 +29,7 @@
         </ion-col>
       </ion-row>
 
-
-      <button ion-button block color="bg"
+      <button ion-button block color="bg" [disabled]="!form.valid"
               class="margin-top20" (click)="goToSignUpBirthday()">
         Siguiente
       </button>

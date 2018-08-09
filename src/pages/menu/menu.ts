@@ -22,8 +22,6 @@ export class MenuPage {
 
     this.afAuth.authState.subscribe(
       user => {
-        console.log('AFAUTH!!');
-        console.log(JSON.stringify(user));
       }
     );
   }

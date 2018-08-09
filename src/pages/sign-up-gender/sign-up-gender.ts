@@ -1,14 +1,10 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {SignUpCredentialsPage} from "../sign-up-credentials/sign-up-credentials";
-
-/**
- * Generated class for the SignUpGenderPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {AngularFirestore} from "angularfire2/firestore";
+import {MenuPage} from "../menu/menu";
+import {SignUpTelephonePage} from "../sign-up-telephone/sign-up-telephone";
 
 @IonicPage()
 @Component({
@@ -18,9 +14,12 @@ import {SignUpCredentialsPage} from "../sign-up-credentials/sign-up-credentials"
 export class SignUpGenderPage {
 
   form: FormGroup;
+  usuario: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    console.log(this.navParams);
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              private afs: AngularFirestore) {
+    this.usuario = navParams.get('usuario');
+    console.log(this.navParams.data);
     this.form = new FormGroup({
       'sexo': new FormControl('hombre', Validators.required)
     });
@@ -34,10 +33,25 @@ export class SignUpGenderPage {
     let usuario = this.navParams.get('usuario');
     usuario.sexo = this.form.get('sexo').value;
     console.log(usuario);
-    this.navCtrl.push(SignUpCredentialsPage, {
-      usuario: usuario
-    });
+      this.navCtrl.push(SignUpTelephonePage, {
+        usuario: usuario
+      });
+    // if (usuario.provider === 'email') {
+    //   this.navCtrl.push(SignUpCredentialsPage, {
+    //     usuario: usuario
+    //   });
+    // } else {
+    //   this.createUser().then(
+    //     () => this.navCtrl.setRoot(MenuPage),
+    //     error => console.log('Error al registrar: ' + JSON.stringify(error))
+    //   )
+    // }
+  }
 
+  createUser() {
+    let source = this.usuario.tipoUsuario;
+    console.log(JSON.stringify(this.usuario));
+    return this.afs.collection(source).add(this.usuario);
   }
 
 }

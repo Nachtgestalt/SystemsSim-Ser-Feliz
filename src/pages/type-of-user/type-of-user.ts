@@ -26,6 +26,8 @@ export class TypeOfUserPage {
 
   goToSignUpName(typeOfUser) {
     this.navCtrl.push(SignUpNamePage, {
+      key: this.navParams.get('key'),
+      provider: this.navParams.get('provider'),
       tipoUsuario: typeOfUser
     });
   }

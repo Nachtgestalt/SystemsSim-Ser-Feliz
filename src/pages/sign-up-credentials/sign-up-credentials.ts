@@ -53,7 +53,7 @@ export class SignUpCredentialsPage {
   createUser(id) {
     this.usuario.key = id;
     console.log(this.usuario);
-    return this.afs.collection('usuarios').add(this.usuario);
+    return this.afs.collection(this.usuario.tipoUsuario).add(this.usuario);
   }
 
 }

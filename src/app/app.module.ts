@@ -16,7 +16,7 @@ import { GooglePlus } from '@ionic-native/google-plus';
 // Firebase
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/database';
-import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 import {AngularFirestoreModule} from "angularfire2/firestore";
 
 import {MenuPage} from "../pages/menu/menu";
@@ -36,6 +36,13 @@ import {SignUpNamePage} from "../pages/sign-up-name/sign-up-name";
 import {SignUpBirthdayPage} from "../pages/sign-up-birthday/sign-up-birthday";
 import {SignUpGenderPage} from "../pages/sign-up-gender/sign-up-gender";
 import {SignUpCredentialsPage} from "../pages/sign-up-credentials/sign-up-credentials";
+import {OptionsPage} from "../pages/options/options";
+import {IonicStorageModule} from "@ionic/storage";
+import { SettingsService} from '../providers/settings/settings';
+import {SignUpTelephonePage} from "../pages/sign-up-telephone/sign-up-telephone";
+import {SignUpContactPersonPage} from "../pages/sign-up-contact-person/sign-up-contact-person";
+import {SignUpPersonalInformationPage} from "../pages/sign-up-personal-information/sign-up-personal-information";
+import {SignUpProfessionalInfoPage} from "../pages/sign-up-professional-info/sign-up-professional-info";
 
 @NgModule({
   declarations: [
@@ -46,12 +53,17 @@ import {SignUpCredentialsPage} from "../pages/sign-up-credentials/sign-up-creden
     SignUpNamePage,
     SignUpBirthdayPage,
     SignUpGenderPage,
+    SignUpTelephonePage,
+    SignUpContactPersonPage,
+    SignUpPersonalInformationPage,
+    SignUpProfessionalInfoPage,
     SignUpCredentialsPage,
     MenuPage,
     MePage,
     MessagingPage,
     ChatPage,
-    MatchedPage
+    MatchedPage,
+    OptionsPage
   ],
   imports: [
     BrowserModule,
@@ -62,6 +74,7 @@ import {SignUpCredentialsPage} from "../pages/sign-up-credentials/sign-up-creden
       mode: 'ios',// TODO: to have same iOS look for all platforms
       backButtonText: '',
     }),
+    IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
@@ -76,13 +89,18 @@ import {SignUpCredentialsPage} from "../pages/sign-up-credentials/sign-up-creden
     SignUpNamePage,
     SignUpBirthdayPage,
     SignUpGenderPage,
+    SignUpTelephonePage,
+    SignUpContactPersonPage,
+    SignUpPersonalInformationPage,
+    SignUpProfessionalInfoPage,
     SignUpCredentialsPage,
     TypeOfUserPage,
     MenuPage,
     MePage,
     MessagingPage,
     ChatPage,
-    MatchedPage
+    MatchedPage,
+    OptionsPage
   ],
   providers: [
     StatusBar,
@@ -90,9 +108,11 @@ import {SignUpCredentialsPage} from "../pages/sign-up-credentials/sign-up-creden
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     UserProvider,
     Facebook,
+    AngularFireAuth,
     GooglePlus,
     AuthProvider,
-    TherapistProvider
+    TherapistProvider,
+    SettingsService
   ]
 })
 export class AppModule {}

@@ -23,15 +23,20 @@ export class SignUpBirthdayPage {
   }
 
   goToSignUpGender() {
+    let provider = this.navParams.get('provider');
     let tipoUsuario = this.navParams.get('tipoUsuario');
     let nombre = this.navParams.get('nombre');
     let apellidos = this.navParams.get('apellidos');
+    let key = this.navParams.get('key');
     let fecha_nacimiento = this.form.get('fecha_nacimiento').value;
+
     const usuario = {
+      provider: provider,
       tipoUsuario: tipoUsuario,
       nombre: nombre,
       apellidos: apellidos,
-      fecha_nacimiento: fecha_nacimiento
+      fecha_nacimiento: fecha_nacimiento,
+      key: key
     };
     console.log(this.form.get('fecha_nacimiento').value);
     this.navCtrl.push(SignUpGenderPage, {

@@ -1,0 +1,26 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Teléfono de contacto</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <h3 class="text-center margin-top20">Ingresa tu número de celular</h3>
+  <p class="text-center">Ingresa tu número de celular de contacto.</p>
+
+  <form [formGroup]="form">
+    <ion-item>
+      <ion-label color="primary" floating>Número de celular</ion-label>
+      <ion-input type="tel" formControlName="telefono"></ion-input>
+    </ion-item>
+
+    <button ion-button block color="bg" [disabled]="!form.valid"
+            class="margin-top20" (click)="goToNextStep()">
+      Siguiente
+    </button>
+  </form>
+
+</ion-content>

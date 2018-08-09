@@ -34,24 +34,6 @@ export class WelcomePage {
               private platform: Platform,
               private googlePlus: GooglePlus,
               public auth: AuthProvider) {
-    this.introSlides = [
-      {
-        title: 'Descubre nuevos e interesantes <br> expertos cerca',
-        image: 'assets/img/intro/intro_1.png'
-      },
-      {
-        title: 'Desliza hacia la derecha para contactar a alguien <br /> ó desliza hacia la izquierda para pasar',
-        image: 'assets/img/intro/intro_2.png'
-      },
-      {
-        title: 'Si tambien deslizan hacia la derecha <br /> entonces es un match!',
-        image: 'assets/img/intro/intro_3.png'
-      },
-      {
-        title: 'Solo gente con la que hagas match <br /> pueden hablar contigo',
-        image: 'assets/img/intro/intro_4.png'
-      }
-    ]
 
     this.loginForm = new FormGroup({
       'email': new FormControl('', Validators.compose([Validators.required, Validators.email])),
@@ -64,15 +46,10 @@ export class WelcomePage {
     console.log('ionViewDidLoad WelcomePage');
   }
 
-  goToSwipe() {
-    this.app.getRootNav().setRoot(MenuPage)
-      .then(() => {
-        console.log('Welcome to your ExplorePage!');
-      })
-  }
-
   goToSignUp() {
-    this.navCtrl.push(TypeOfUserPage, {}, {
+    this.navCtrl.push(TypeOfUserPage, {
+      provider: 'email'
+    }, {
       direction: 'forward'
     });
   }
@@ -98,18 +75,34 @@ export class WelcomePage {
       'webClientId': '1031764141009-lh0b5cj7fiqcquih0cjisbeuhqt6dkdq.apps.googleusercontent.com',
       'offline': true
     }).then(res => {
-      firebase.auth().signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken))
-        .then(user => {
-          console.log("Firebase success: " + JSON.stringify(user));
-          this.userProv.loadUser(user.displayName,
-            user.email,
-            user.photoURL,
-            user.uid,
-            'google');
-          this.navCtrl.setRoot(ExplorePage);
+      firebase.auth().signInAndRetrieveDataWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken))
+        .then((user:any) => {
+          this.auth.verifyAccountExist('usuarios', user.user.uid).then(
+            existe => {
+              if( existe ) {
+                this.navCtrl.setRoot(MenuPage)
+              } else {
+                this.auth.verifyAccountExist('terapeutas', user.user.uid).then(
+                  existe => {
+                    if(existe) {
+                      this.navCtrl.setRoot(MenuPage)
+                    } else {
+                      this.navCtrl.push(TypeOfUserPage,{
+                        key: user.user.uid,
+                        provider: 'google'
+                      });
+                    }
+                  }
+                )
+              }
+            }
+          );
         })
         .catch(error => console.log("Firebase failure: " + JSON.stringify(error)));
-    }).catch(err => console.error("Error: ", JSON.stringify(err)));
+    }).catch(err => {
+      console.error("Error: " + JSON.stringify(err))
+      this.googlePlus.disconnect();
+    });
   }
 
   signInWithFacebook() {

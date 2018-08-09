@@ -2,6 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import {IonicPage, ModalController, NavController, NavParams, Slides} from 'ionic-angular';
 import {ExplorePage} from "../explore/explore";
 import {MenuPage} from "../menu/menu";
+import {OptionsPage} from "../options/options";
 
 
 @IonicPage()
@@ -47,10 +48,10 @@ export class MePage {
   //   modal.present();
   // }
 
-  // openSettings() {
-  //   let modal = this.modalCtrl.create(SettingsPage);
-  //   modal.present();
-  // }
+  openSettings() {
+    let modal = this.modalCtrl.create(OptionsPage);
+    modal.present();
+  }
 
   // openTinderPlus() {
   //   let modal = this.modalCtrl.create(TinderPlusPage);
