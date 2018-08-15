@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import {WelcomePage} from "../pages/welcome/welcome";
 import {MenuPage} from "../pages/menu/menu";
 import {AuthProvider} from "../providers/auth/auth";
+import {UserProvider} from "../providers/user/user";
 @Component({
   templateUrl: 'app.html'
 })
@@ -15,13 +16,20 @@ export class MyApp {
   // rootPage:any = MenuPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
-              private auth: AuthProvider) {
+              private auth: AuthProvider,
+              public _userProv: UserProvider) {
     platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      statusBar.styleDefault();
-      this.initializeApp();
-      splashScreen.hide();
+      this._userProv.loadStorage().then( exist => {
+        statusBar.styleDefault();
+        splashScreen.hide();
+        if( exist ) {
+          this.rootPage = MenuPage;
+        } else {
+          this.rootPage = WelcomePage;
+        }
+      });
+
+      // this.initializeApp();
     });
   }
 

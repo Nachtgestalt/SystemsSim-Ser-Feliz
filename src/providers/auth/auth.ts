@@ -1,21 +1,21 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from "angularfire2/auth";
 import * as firebase from 'firebase/app';
-import AuthService = firebase.auth.AuthProvider;
 import {GooglePlus} from "@ionic-native/google-plus";
 import {AngularFirestore, AngularFirestoreCollection} from "angularfire2/firestore";
-import {Observable} from "rxjs/Rx";
-import {forkJoin} from "rxjs";
+import {UserProvider} from "../user/user";
+import {Subscription} from "rxjs/Rx";
 
 
 @Injectable()
 export class AuthProvider {
   userCollection: AngularFirestoreCollection<any>;
-  therapistCollection: AngularFirestoreCollection<any>;
   private user: firebase.User;
+  value$: Subscription;
 
   constructor(public  afAuth: AngularFireAuth, private googlePlus: GooglePlus,
-              private afs: AngularFirestore) {
+              private afs: AngularFirestore,
+              private _userProv: UserProvider) {
     firebase.auth().useDeviceLanguage();
     afAuth.authState.subscribe(user => {
       this.user = user;
@@ -29,16 +29,18 @@ export class AuthProvider {
           return ref.where('key', '==', uid)
         });
 
-        let value$ = this.userCollection.valueChanges();
-        value$.subscribe(
-            data => {
-              console.log('Usuario: ' + JSON.stringify(data));
-              if (data.length !== 0) {
-                resolve(true);
-              } else {
-                resolve(false);
-              }
-            });
+        this.value$ = this.userCollection.valueChanges().subscribe(
+          data => {
+            console.log('Usuario: ' + JSON.stringify(data[0]));
+            if (data.length !== 0) {
+              this._userProv.setInStorage(data[0]);
+              this.value$.unsubscribe();
+              resolve(true);
+            } else {
+              this.value$.unsubscribe();
+              resolve(false);
+            }
+          });
       }
     );
   }
@@ -47,34 +49,6 @@ export class AuthProvider {
     console.log('Sign in with email');
     return this.afAuth.auth.signInWithEmailAndPassword(credentials.email,
       credentials.password);
-  }
-
-  sigInWithGoogle() {
-    console.log('Autenticado con google');
-    console.log(this.oauthSignIn(new firebase.auth.GoogleAuthProvider()));
-    return this.oauthSignIn(new firebase.auth.GoogleAuthProvider());
-  }
-
-  private oauthSignIn(provider: AuthService) {
-    if (!(<any>window).cordova) {
-      return this.afAuth.auth.signInWithPopup(provider);
-    } else {
-      return this.afAuth.auth.signInWithRedirect(provider)
-        .then(() => {
-          return this.afAuth.auth.getRedirectResult().then(result => {
-            console.log(JSON.stringify(result));
-            // This gives you a Google Access Token.
-            // You can use it to access the Google API.
-            // let token = result.credential.accessToken;
-            // The signed-in user info.
-            let user = result.user;
-            // console.log(token, user);
-          }).catch(function (error) {
-            // Handle Errors here.
-            alert(error.message);
-          });
-        });
-    }
   }
 
   signUp(credentials) {
@@ -90,7 +64,7 @@ export class AuthProvider {
   }
 
   signOut(): Promise<void> {
-    this.googlePlus.disconnect();
+    this._userProv.deleteUser();
     return this.afAuth.auth.signOut();
   }
 

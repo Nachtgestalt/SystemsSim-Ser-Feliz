@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthProvider} from "../../providers/auth/auth";
 import {WelcomePage} from "../welcome/welcome";
@@ -17,6 +17,8 @@ export class SignUpCredentialsPage {
   usuario: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
+              public loadingCtrl: LoadingController,
+              public alertCtrl: AlertController,
               private auth: AuthProvider,
               private afs: AngularFirestore) {
     this.usuario = navParams.get('usuario');
@@ -37,13 +39,31 @@ export class SignUpCredentialsPage {
       email: data.email,
       password: data.password
     };
+    let loading = this.loadingCtrl.create({
+      content: 'Creando cuenta'
+    });
     this.auth.signUp(credentials).then(
       (data: any) => {
         let id = data.user.uid;
         console.log(data);
         this.createUser(id).then(
-          () => this.navCtrl.setRoot(MenuPage),
-          error => console.log(error)
+          () => {
+            loading.dismiss();
+            this.alertCtrl.create({
+              title:'Cuenta creada',
+              subTitle: 'Inicia sesión',
+              buttons: ['Aceptar']
+            }).present();
+            this.navCtrl.setRoot(WelcomePage)
+          },
+          error => {
+            this.alertCtrl.create({
+              title:'Error al crear usuario',
+              subTitle: 'Intente más tarde',
+              buttons: ['Aceptar']
+            }).present();
+            console.log(error)
+          }
         )
       },
       error => console.log(error)

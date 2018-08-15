@@ -100,4 +100,8 @@
         <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.1031764141009-6prl0la92msjonplhiuu3lpvd5remjre" />
     </plugin>
     <plugin name="cordova-sqlite-storage" spec="^2.3.3" />
+    <plugin name="cordova-plugin-telerik-imagepicker" spec="^2.2.2">
+        <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="your usage message" />
+    </plugin>
+    <plugin name="cordova-plugin-camera" spec="^4.0.3" />
 </widget>

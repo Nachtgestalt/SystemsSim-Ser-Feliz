@@ -30,7 +30,6 @@ import { AuthProvider } from '../providers/auth/auth';
 import {MatchedPage} from "../pages/matched/matched";
 import {SwingModule} from "angular2-swing";
 import {ElasticModule} from "ng-elastic";
-import { TherapistProvider } from '../providers/therapist/therapist';
 import {TypeOfUserPage} from "../pages/type-of-user/type-of-user";
 import {SignUpNamePage} from "../pages/sign-up-name/sign-up-name";
 import {SignUpBirthdayPage} from "../pages/sign-up-birthday/sign-up-birthday";
@@ -38,11 +37,15 @@ import {SignUpGenderPage} from "../pages/sign-up-gender/sign-up-gender";
 import {SignUpCredentialsPage} from "../pages/sign-up-credentials/sign-up-credentials";
 import {OptionsPage} from "../pages/options/options";
 import {IonicStorageModule} from "@ionic/storage";
-import { SettingsService} from '../providers/settings/settings';
 import {SignUpTelephonePage} from "../pages/sign-up-telephone/sign-up-telephone";
 import {SignUpContactPersonPage} from "../pages/sign-up-contact-person/sign-up-contact-person";
 import {SignUpPersonalInformationPage} from "../pages/sign-up-personal-information/sign-up-personal-information";
 import {SignUpProfessionalInfoPage} from "../pages/sign-up-professional-info/sign-up-professional-info";
+import { UtilsProvider } from '../providers/utils/utils';
+import { UploadFilesProvider } from '../providers/upload-files/upload-files';
+import {EditProfilePage} from "../pages/edit-profile/edit-profile";
+import {ImagePicker} from "@ionic-native/image-picker";
+import {Camera} from "@ionic-native/camera";
 
 @NgModule({
   declarations: [
@@ -60,6 +63,7 @@ import {SignUpProfessionalInfoPage} from "../pages/sign-up-professional-info/sig
     SignUpCredentialsPage,
     MenuPage,
     MePage,
+    EditProfilePage,
     MessagingPage,
     ChatPage,
     MatchedPage,
@@ -97,6 +101,7 @@ import {SignUpProfessionalInfoPage} from "../pages/sign-up-professional-info/sig
     TypeOfUserPage,
     MenuPage,
     MePage,
+    EditProfilePage,
     MessagingPage,
     ChatPage,
     MatchedPage,
@@ -105,14 +110,16 @@ import {SignUpProfessionalInfoPage} from "../pages/sign-up-professional-info/sig
   providers: [
     StatusBar,
     SplashScreen,
+    ImagePicker,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     UserProvider,
     Facebook,
+    Camera,
     AngularFireAuth,
     GooglePlus,
     AuthProvider,
-    TherapistProvider,
-    SettingsService
+    UtilsProvider,
+    UploadFilesProvider
   ]
 })
 export class AppModule {}

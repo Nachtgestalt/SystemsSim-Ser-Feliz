@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {MenuPage} from "../menu/menu";
 import {SignUpCredentialsPage} from "../sign-up-credentials/sign-up-credentials";
 import {AngularFirestore} from "angularfire2/firestore";
+import {WelcomePage} from "../welcome/welcome";
 
 @IonicPage()
 @Component({
@@ -16,6 +16,8 @@ export class SignUpContactPersonPage {
   msgButton: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
+              public loadingCtrl: LoadingController,
+              public alertCtrl: AlertController,
               private afs: AngularFirestore) {
     this.usuario = navParams.get('usuario');
     this.usuario.provider === 'email' ? this.msgButton = 'Siguiente' : this.msgButton = 'Registrarte' ;
@@ -37,10 +39,27 @@ export class SignUpContactPersonPage {
         usuario: this.usuario
       });
     } else {
+      let loading = this.loadingCtrl.create({
+        content: 'Creando cuenta'
+      });
       this.createUser().then(
-        () => this.navCtrl.setRoot(MenuPage),
-        error => console.log('Error al registrar: ' + JSON.stringify(error))
-      )
+        () => {
+          loading.dismiss();
+          this.alertCtrl.create({
+            title: 'Cuenta creada',
+            subTitle: 'Inicia sesión',
+            buttons: ['Aceptar']
+          }).present();
+          this.navCtrl.setRoot(WelcomePage)
+        },
+        error => {
+          this.alertCtrl.create({
+            title: 'Error al crear usuario',
+            subTitle: 'Intente más tarde',
+            buttons: ['Aceptar']
+          }).present();
+          console.log(error)
+        });
     }
   }
 
