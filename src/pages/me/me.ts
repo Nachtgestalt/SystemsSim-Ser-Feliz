@@ -20,7 +20,10 @@ export class MePage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public modalCtrl: ModalController,
               public _userProv: UserProvider
-              ) {
+              ) {}
+
+  ionViewCanEnter() {
+    console.log('ionViewCanEnter MePage');
     this._userProv.loadStorage().then( existe => {
       if ( existe ) {
         console.log('Cargo el storage!');
@@ -34,11 +37,6 @@ export class MePage {
       },
       error1 => console.log(JSON.stringify(error1))
     );
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad MePage');
-    // this.openProfileEdit();// TODO
   }
 
   ionViewCanLeave	() {
@@ -65,8 +63,6 @@ export class MePage {
     this.navCtrl.push(EditProfilePage, {}, {
       direction: 'forward'
     })
-    // let modal = this.modalCtrl.create(EditProfilePage);
-    // modal.present();
   }
 
   openSettings() {

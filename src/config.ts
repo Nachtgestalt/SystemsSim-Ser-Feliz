@@ -6,3 +6,5 @@ export const firebaseConfig = {
   storageBucket: "ser-feliz-61e39.appspot.com",
   messagingSenderId: "1031764141009"
 };
+
+export const DAYS_OF_WEEK = 7;

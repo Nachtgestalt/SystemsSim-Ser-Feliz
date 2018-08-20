@@ -1,0 +1,73 @@
+page-tracking {
+  p{
+    font-size: .9em;
+  }
+  .btn-estupendo{
+    border: 3px solid #7fe9e9;
+    border-radius: 10px/30px;
+    width: 100%;
+    height: 60px;
+    background: url('../../assets/img/rating/estupendo.png') no-repeat center;
+    cursor: pointer;
+  }
+
+  .btn-muybien{
+    border: 3px solid #7fe9e9;
+    border-radius: 10px/30px;
+    width: 100%;
+    height: 60px;
+    background: url('../../assets/img/rating/muybien.png') no-repeat center;
+    cursor: pointer;
+  }
+
+  .btn-bien{
+     border: 3px solid #7fe9e9;
+     border-radius: 10px/30px;
+     width: 100%;
+    height: 60px;
+     background: url('../../assets/img/rating/bien.png') no-repeat center;
+     cursor: pointer;
+     color: #fff;
+   }
+
+  .btn-regular{
+    border: 3px solid #7fe9e9;
+    border-radius: 10px/30px;
+    width: 100%;
+    height: 60px;
+    background: url('../../assets/img/rating/regular.png') no-repeat center;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  .btn-nobien{
+    border: 3px solid #7fe9e9;
+    border-radius: 10px/30px;
+    width: 100%;
+    height: 60px;
+    background: url('../../assets/img/rating/nobien.png') no-repeat center;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  .btn-mal{
+    border: 3px solid #7fe9e9;
+    border-radius: 10px/30px;
+    width: 100%;
+    height: 60px;
+    background: url('../../assets/img/rating/mal.png') no-repeat center;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  .btn-desastroso{
+    border: 3px solid #7fe9e9;
+    border-radius: 10px/30px;
+    width: 100%;
+    height: 60px;
+    background: url('../../assets/img/rating/desastroso.png') no-repeat center;
+    cursor: pointer;
+    color: #fff;
+  }
+
+}

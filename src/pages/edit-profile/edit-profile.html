@@ -13,6 +13,7 @@
       <ion-icon name="md-photos" class="m-r-sm"></ion-icon>
       Foto del perfil
       <button small ion-button icon-end float-right
+              *ngIf="imagePreview"
               (click)="editImageProfile()">
         GUARDAR
         <ion-icon name="md-cloud-done"></ion-icon>

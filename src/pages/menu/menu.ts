@@ -9,6 +9,7 @@ import {WelcomePage} from "../welcome/welcome";
 import {map} from "rxjs/operators";
 import {UtilsProvider} from "../../providers/utils/utils";
 import {Subscription} from "rxjs/Rx";
+import {TrackingPage} from "../tracking/tracking";
 
 @IonicPage()
 @Component({
@@ -56,6 +57,12 @@ export class MenuPage {
 
   goToMessaging() {
     this.navCtrl.push(MessagingPage, {}, {
+      direction: 'forward'
+    });
+  }
+
+  goToTracking() {
+    this.navCtrl.push(TrackingPage, {}, {
       direction: 'forward'
     });
   }

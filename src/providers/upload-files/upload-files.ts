@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from "angularfire2/database";
-import {ToastController} from "ionic-angular";
+import {LoadingController, ToastController} from "ionic-angular";
 
 import * as firebase from 'firebase';
 import 'rxjs/add/operator/map'
@@ -15,6 +15,7 @@ export class UploadFilesProvider {
 
   constructor(private afS: AngularFirestore,
               public toastCtrl: ToastController,
+              public loadingCtrl: LoadingController,
               private storage: Storage) {
     this.storage.get('idDocument').then(val => {
       if (val) {
@@ -32,8 +33,13 @@ export class UploadFilesProvider {
   }
 
   uploadImageToFirebase(file: FileLoad) {
+    let loading = this.loadingCtrl.create({
+      content: 'Guardando imagen...'
+    });
+
     let promise = new Promise((resolve, reject) => {
-      this.presentToast('Cargando...');
+
+      loading.present();
 
       let storeRef = firebase.storage().ref();
       let fileName: string = new Date().valueOf().toString();
@@ -54,9 +60,10 @@ export class UploadFilesProvider {
         () => {
           //Todo bien!!
           console.log('Archivo subido');
-          this.presentToast('Imagen cargada correctamente');
+          loading.dismiss();
           uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
             this.setUrlImageUser(downloadURL);
+            resolve();
           });
         }
       )

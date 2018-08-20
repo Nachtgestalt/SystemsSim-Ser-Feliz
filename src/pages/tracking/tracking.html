@@ -1,0 +1,54 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Seguimiento</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="goToTrackingCharts()">
+        <ion-icon name="ios-stats-outline" color="muted"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <h3 class="text-center margin-top10">Hola {{user?.nombre}}</h3>
+  <p class="text-center">¿Como te sientes hoy {{dayNow | uppercase}}?</p>
+
+  <ion-grid class="margin-top10">
+    <ion-row col-12>
+      <ion-col col-3>
+        <button class="btn-estupendo" (click)="rating('Estupendo')"></button>
+        <p text-center>Estupendo</p>
+      </ion-col>
+      <ion-col col-3>
+        <button class="btn-muybien" (click)="rating('Muy bien')"></button>
+        <p text-center>Muy bien</p>
+      </ion-col>
+      <ion-col col-3>
+        <button class="btn-bien" (click)="rating('Bien')"></button>
+        <p text-center>Bien</p>
+      </ion-col>
+      <ion-col col-3>
+        <button class="btn-regular" (click)="rating('Regular')"></button>
+        <p text-center>Regular</p>
+      </ion-col>
+    </ion-row>
+    <ion-row class="margin-top10">
+      <ion-col col-3>
+        <button class="btn-nobien" (click)="rating('No bien')"></button>
+        <p text-center>No bien</p>
+      </ion-col>
+      <ion-col col-3>
+        <button class="btn-mal" (click)="rating('Mal')"></button>
+        <p text-center>Mal</p>
+      </ion-col>
+      <ion-col col-3>
+        <button class="btn-desastroso" (click)="rating('Desastroso')"></button>
+        <p text-center>Desastroso</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

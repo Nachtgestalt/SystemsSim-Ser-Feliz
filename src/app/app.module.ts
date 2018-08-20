@@ -46,12 +46,18 @@ import { UploadFilesProvider } from '../providers/upload-files/upload-files';
 import {EditProfilePage} from "../pages/edit-profile/edit-profile";
 import {ImagePicker} from "@ionic-native/image-picker";
 import {Camera} from "@ionic-native/camera";
+import {TrackingPage} from "../pages/tracking/tracking";
+import { TrackingProvider } from '../providers/tracking/tracking';
+import {ChartsModule} from "ng2-charts";
+import {TrackingChartsPage} from "../pages/tracking-charts/tracking-charts";
 
 @NgModule({
   declarations: [
     MyApp,
     WelcomePage,
     ExplorePage,
+    TrackingPage,
+    TrackingChartsPage,
     TypeOfUserPage,
     SignUpNamePage,
     SignUpBirthdayPage,
@@ -83,13 +89,16 @@ import {Camera} from "@ionic-native/camera";
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     AngularFirestoreModule,
-    NgxErrorsModule
+    NgxErrorsModule,
+    ChartsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     WelcomePage,
     ExplorePage,
+    TrackingPage,
+    TrackingChartsPage,
     SignUpNamePage,
     SignUpBirthdayPage,
     SignUpGenderPage,
@@ -119,7 +128,8 @@ import {Camera} from "@ionic-native/camera";
     GooglePlus,
     AuthProvider,
     UtilsProvider,
-    UploadFilesProvider
+    UploadFilesProvider,
+    TrackingProvider
   ]
 })
 export class AppModule {}

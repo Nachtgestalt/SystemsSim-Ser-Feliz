@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {ImagePicker, ImagePickerOptions} from "@ionic-native/image-picker";
 import {Camera, CameraOptions} from "@ionic-native/camera";
 import {UploadFilesProvider} from "../../providers/upload-files/upload-files";
@@ -15,6 +15,7 @@ export class EditProfilePage {
   image64: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
+              public loadingCtrl: LoadingController,
               private camera: Camera,
               private imagePicker: ImagePicker,
               public _loadFileProvider: UploadFilesProvider) {
@@ -67,7 +68,9 @@ export class EditProfilePage {
       img: this.image64
     };
 
-    this._loadFileProvider.uploadImageToFirebase(file).then( () => this.navCtrl.pop())
+    this._loadFileProvider.uploadImageToFirebase(file).then( () => {
+      this.navCtrl.pop()
+    })
   }
 
 }
