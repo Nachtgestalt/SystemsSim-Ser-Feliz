@@ -9,6 +9,9 @@ import {MatchedPage} from "../matched/matched";
 
 import * as _ from 'lodash';
 import {MessagingPage} from "../messaging/messaging";
+import {Subscription} from "rxjs/Rx";
+import {TherapistsProvider} from "../../providers/therapists/therapists";
+import {ProfilePage} from "../profile/profile";
 
 
 @IonicPage()
@@ -20,6 +23,8 @@ export class ExplorePage {
   @ViewChild('cardStack') swingStack: SwingStackComponent;
   @ViewChildren('card') swingCards: QueryList<SwingCardComponent>;
 
+  data$: Subscription;
+
   cards: any[];
   stackConfig: StackConfig;
   users: any[];
@@ -27,9 +32,11 @@ export class ExplorePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public userProv: UserProvider,
+              public _therapistProv: TherapistsProvider,
               private afAuth: AngularFireAuth,
               public modalCtrl: ModalController,
               public app: App) {
+
     this.stackConfig = {
       // Default setting only allows UP, LEFT and RIGHT so you can override this as below
       allowedDirections: [
@@ -52,60 +59,80 @@ export class ExplorePage {
 
   ngAfterViewInit() {
     this.cards = [];
-    this.users = [
-      {
-        id: 1,
-        name: 'Hieu Pham',
-        age: 29,
-        job_title: 'UX/UI lover',
-        profile_image_url: 'assets/img/hieu.png'
-      },
-      {
-        id: 2,
-        name: 'Adam Saddler',
-        age: 39,
-        job_title: 'Ionic Team is awesome',
-        profile_image_url: 'assets/img/adam.png'
-      },
-      {
-        id: 3,
-        name: 'Ben Affleck',
-        age: 30,
-        job_title: 'Another awesome Ionic guy',
-        profile_image_url: 'assets/img/ben.png'
-      },
-      {
-        id: 4,
-        name: 'Max Payne',
-        age: 35,
-        job_title: 'Game character assasin',
-        profile_image_url: 'assets/img/max.png'
-      },
-      {
-        id: 5,
-        name: 'Big Mike',
-        age: 31,
-        job_title: 'All guys are awesome',
-        profile_image_url: 'assets/img/mike.png'
-      },
-      {
-        id: 6,
-        name: 'Perry',
-        age: 41,
-        job_title: 'Ionic again',
-        profile_image_url: 'assets/img/perry.png'
-      }
-    ];
 
-    this.addNewCard();
-    this.addNewCard();
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 1500);
+    // this.users = [
+    //   {
+    //     id: 1,
+    //     name: 'Hieu Pham',
+    //     age: 29,
+    //     job_title: 'UX/UI lover',
+    //     profile_image_url: 'assets/img/hieu.png'
+    //   },
+    //   {
+    //     id: 2,
+    //     name: 'Adam Saddler',
+    //     age: 39,
+    //     job_title: 'Ionic Team is awesome',
+    //     profile_image_url: 'assets/img/adam.png'
+    //   },
+    //   {
+    //     id: 3,
+    //     name: 'Ben Affleck',
+    //     age: 30,
+    //     job_title: 'Another awesome Ionic guy',
+    //     profile_image_url: 'assets/img/ben.png'
+    //   },
+    //   {
+    //     id: 4,
+    //     name: 'Max Payne',
+    //     age: 35,
+    //     job_title: 'Game character assasin',
+    //     profile_image_url: 'assets/img/max.png'
+    //   },
+    //   {
+    //     id: 5,
+    //     name: 'Big Mike',
+    //     age: 31,
+    //     job_title: 'All guys are awesome',
+    //     profile_image_url: 'assets/img/mike.png'
+    //   },
+    //   {
+    //     id: 6,
+    //     name: 'Perry',
+    //     age: 41,
+    //     job_title: 'Ionic again',
+    //     profile_image_url: 'assets/img/perry.png'
+    //   }
+    // ];
+
+    // setTimeout(() => {
+    // this.isLoading = false;
+    // }, 1500);
   }
 
   ionViewDidLoad() {
+    this.data$ = this._therapistProv.getTherapists()
+      .subscribe(
+        res => {
+          console.log(res);
+          if( res.length > 2) {
+            this.users = res;
+            if(this.cards.length === 0) {
+              this.addNewCard();
+              this.addNewCard();
+            }
+            this.isLoading = false;
+          } else {
+            this.isLoading = true;
+          }
+        }
+      );
     console.log('ionViewDidLoad ExplorePage');
+  }
+
+  ionViewCanLeave() {
+    console.log('Estoy en CanLeave Trackingcharts');
+    this.data$.unsubscribe();
   }
 
   // Called whenever we drag an element
@@ -134,7 +161,7 @@ export class ExplorePage {
 
     this.cards.push(difference[randomIndex]);
 
-    console.info('CURRENT STACK:', this.cards.map(c => c.name));
+    console.info('CURRENT STACK:', this.cards.map(c => c.nombre));
   }
 
   disliked() {
@@ -153,6 +180,7 @@ export class ExplorePage {
   }
 
   checkMatching(card) {
+    this._therapistProv.sentRequest(card);
     if (card.name == 'Hieu Pham') {
       let modal = this.modalCtrl.create(MatchedPage);
       modal.present();
@@ -180,6 +208,11 @@ export class ExplorePage {
     this.navCtrl.push(MessagingPage, {}, {
       direction: 'forward'
     });
+  }
+
+  openProfile(profile) {
+    let modal = this.modalCtrl.create(ProfilePage, {profile: profile});
+    modal.present();
   }
 
 }

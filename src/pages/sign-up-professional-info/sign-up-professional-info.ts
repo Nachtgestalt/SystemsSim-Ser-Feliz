@@ -61,6 +61,7 @@ export class SignUpProfessionalInfoPage {
     this.user = this.navParams.get('usuario');
     this.user.provider === 'email' ? this.msgButton = 'Siguiente' : this.msgButton = 'Registrarte';
     this.form = new FormGroup({
+      'cedula_profesional': new FormControl('', Validators.required),
       'profesion': new FormControl('', Validators.required),
       'otra_profesion': new FormControl(''),
       'especialidad': new FormControl('', Validators.required),

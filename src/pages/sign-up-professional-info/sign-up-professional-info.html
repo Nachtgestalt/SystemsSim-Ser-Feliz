@@ -14,7 +14,12 @@
   <form [formGroup]="form">
 
     <ion-item class="m-t-md">
-      <ion-label color="primary">Profesión</ion-label>
+      <ion-label color="primary" floating>Cédula profesional</ion-label>
+      <ion-input type="text" formControlName="cedula_profesional"></ion-input>
+    </ion-item>
+
+    <ion-item class="m-t-md">
+      <ion-label color="primary" floating>Profesión</ion-label>
       <ion-select formControlName="profesion">
         <ion-option *ngFor="let profession of professions" [value]="profession.value">{{profession.viewValue}}
         </ion-option>
@@ -26,7 +31,7 @@
     </ion-item>
 
     <ion-item class="m-t-md">
-      <ion-label color="primary">Especialidad</ion-label>
+      <ion-label color="primary" floating>Especialidad</ion-label>
       <ion-select formControlName="especialidad">
         <ion-option *ngFor="let specialization of specializations" [value]="specialization.value">{{specialization.viewValue}}
         </ion-option>
@@ -38,7 +43,7 @@
     </ion-item>
 
     <ion-item class="m-t-md">
-      <ion-label color="primary">Universidad</ion-label>
+      <ion-label color="primary" floating>Universidad</ion-label>
       <ion-select formControlName="universidad">
         <ion-option *ngFor="let universitie of universities" [value]="universitie.value">{{universitie.viewValue}}
         </ion-option>

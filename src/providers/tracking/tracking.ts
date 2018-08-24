@@ -47,6 +47,7 @@ export class TrackingProvider {
       this.idDocument = localStorage.getItem('idDocument');
       this.typeUser = localStorage.getItem('typeUser');
     }
+
     this.trackingDocToday = this.afS.collection(`${this.typeUser}`).doc(`${this.idDocument}`)
       .collection('seguimiento').doc(this.fileName);
 

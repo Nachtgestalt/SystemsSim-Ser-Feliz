@@ -12,19 +12,29 @@
   <p class="text-center">Ingresa tu dirección, RFC y Cédula Profesional</p>
 
   <form [formGroup]="form">
-    <ion-item>
+
+    <ion-item formGroupName="ubicacion">
       <ion-label color="primary" floating>Dirección</ion-label>
       <ion-input type="text" formControlName="direccion"></ion-input>
     </ion-item>
 
+    <ion-item formGroupName="ubicacion">
+      <ion-label color="primary" floating>Pais</ion-label>
+      <ion-select formControlName="pais">
+        <ion-option *ngFor="let countrie of countries" [value]="countrie.name">{{countrie.name}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item formGroupName="ubicacion">
+      <ion-label color="primary" floating>Ciudad</ion-label>
+      <ion-input type="text" formControlName="ciudad"></ion-input>
+    </ion-item>
+
+
     <ion-item>
       <ion-label color="primary" floating>RFC</ion-label>
       <ion-input type="text" formControlName="rfc"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label color="primary" floating>Cédula profesional</ion-label>
-      <ion-input type="text" formControlName="cedula_profesional"></ion-input>
     </ion-item>
 
     <button ion-button block color="bg" [disabled]="!form.valid"

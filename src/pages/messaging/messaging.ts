@@ -22,7 +22,7 @@ export class MessagingPage {
   }
 
   goToMenu() {
-    this.navCtrl.push(MenuPage, {}, {
+    this.navCtrl.pop( {
       direction: 'back'
     });
   }

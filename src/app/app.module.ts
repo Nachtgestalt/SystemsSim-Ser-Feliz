@@ -50,12 +50,15 @@ import {TrackingPage} from "../pages/tracking/tracking";
 import { TrackingProvider } from '../providers/tracking/tracking';
 import {ChartsModule} from "ng2-charts";
 import {TrackingChartsPage} from "../pages/tracking-charts/tracking-charts";
+import { TherapistsProvider } from '../providers/therapists/therapists';
+import {ProfilePage} from "../pages/profile/profile";
 
 @NgModule({
   declarations: [
     MyApp,
     WelcomePage,
     ExplorePage,
+    ProfilePage,
     TrackingPage,
     TrackingChartsPage,
     TypeOfUserPage,
@@ -97,6 +100,7 @@ import {TrackingChartsPage} from "../pages/tracking-charts/tracking-charts";
     MyApp,
     WelcomePage,
     ExplorePage,
+    ProfilePage,
     TrackingPage,
     TrackingChartsPage,
     SignUpNamePage,
@@ -129,7 +133,8 @@ import {TrackingChartsPage} from "../pages/tracking-charts/tracking-charts";
     AuthProvider,
     UtilsProvider,
     UploadFilesProvider,
-    TrackingProvider
+    TrackingProvider,
+    TherapistsProvider
   ]
 })
 export class AppModule {}

@@ -17,6 +17,7 @@ export class UserProvider {
               private afs: AngularFirestore,
               public _utilsProv: UtilsProvider,
               private platform: Platform) {
+    this.loadStorage();
   }
 
   setIdDocumentAndType(id, type) {
