@@ -37,6 +37,7 @@ export class ExplorePage {
               public modalCtrl: ModalController,
               public app: App) {
 
+    this.getRequestFriends();
     this.stackConfig = {
       // Default setting only allows UP, LEFT and RIGHT so you can override this as below
       allowedDirections: [
@@ -177,6 +178,10 @@ export class ExplorePage {
     this.checkMatching(removedCard);
 
     console.log('You liked: ' + removedCard.name);
+  }
+
+  getRequestFriends() {
+    this._therapistProv.getPatientsRequest();
   }
 
   checkMatching(card) {

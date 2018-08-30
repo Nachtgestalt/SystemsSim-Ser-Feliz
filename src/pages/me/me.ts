@@ -48,7 +48,7 @@ export class MePage {
   }
 
   goToExplore() {
-    this.navCtrl.setRoot(ExplorePage, {}, {
+    this.navCtrl.push(ExplorePage, {}, {
       direction: 'forward'
     });
   }

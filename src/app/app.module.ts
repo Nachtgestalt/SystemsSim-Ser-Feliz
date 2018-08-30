@@ -52,12 +52,19 @@ import {ChartsModule} from "ng2-charts";
 import {TrackingChartsPage} from "../pages/tracking-charts/tracking-charts";
 import { TherapistsProvider } from '../providers/therapists/therapists';
 import {ProfilePage} from "../pages/profile/profile";
+import {ListOfRequestPage} from "../pages/list-of-request/list-of-request";
+import { ChatProvider } from '../providers/chat/chat';
+import {DirectivesModule} from "../directives/directives.module";
+import {Keyboard} from "@ionic-native/keyboard";
+import {PipesModule} from "../pipes/pipes.module";
+import { PaginationProvider } from '../providers/pagination/pagination';
 
 @NgModule({
   declarations: [
     MyApp,
     WelcomePage,
     ExplorePage,
+    ListOfRequestPage,
     ProfilePage,
     TrackingPage,
     TrackingChartsPage,
@@ -87,19 +94,22 @@ import {ProfilePage} from "../pages/profile/profile";
       mode: 'ios',// TODO: to have same iOS look for all platforms
       backButtonText: '',
     }),
+    DirectivesModule,
     IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     AngularFirestoreModule,
     NgxErrorsModule,
-    ChartsModule
+    ChartsModule,
+    PipesModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     WelcomePage,
     ExplorePage,
+    ListOfRequestPage,
     ProfilePage,
     TrackingPage,
     TrackingChartsPage,
@@ -124,6 +134,7 @@ import {ProfilePage} from "../pages/profile/profile";
     StatusBar,
     SplashScreen,
     ImagePicker,
+    Keyboard,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     UserProvider,
     Facebook,
@@ -134,7 +145,9 @@ import {ProfilePage} from "../pages/profile/profile";
     UtilsProvider,
     UploadFilesProvider,
     TrackingProvider,
-    TherapistsProvider
+    TherapistsProvider,
+    ChatProvider,
+    PaginationProvider
   ]
 })
 export class AppModule {}

@@ -18,25 +18,38 @@
 </ion-header>
 
 <ion-content>
-  <div>
-    <div class="wrapper-xs padder">
-      <div ion-text color="danger" class="font-bold">
-        Nuevos Matches
-        <ion-badge color="danger">1</ion-badge>
-      </div>
-    </div>
-    <div class="wrapper-xs padder matches-thumbs">
-      <ion-scroll scrollX="true">
-        <div class="thumbs-wrapper">
-          <div class="matches-thumb" *ngFor="let i of [0,1,2,3,4,5,6]" (click)="goToChat(true)">
-            <demo-avatar [sizeClass]="'thumb-md'"></demo-avatar>
-            <div class="online-status"></div>
-            <div class="text-center text-ellipsis">Doctor</div>
-          </div>
-        </div>
-      </ion-scroll>
-    </div>
-  </div>
+  <!--<div>-->
+    <!--<div class="wrapper-xs padder">-->
+      <!--<div ion-text color="danger" class="font-bold">-->
+        <!--{{typeUser === 'terapeutas' ? 'Pacientes' : 'Terapeutas'}}-->
+        <!--&lt;!&ndash;<ion-badge color="danger">1</ion-badge>&ndash;&gt;-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="wrapper-xs padder matches-thumbs">-->
+      <!--<ion-scroll scrollX="true" *ngIf="typeUser === 'terapeutas'">-->
+        <!--<div class="thumbs-wrapper">-->
+          <!--<div class="matches-thumb" *ngFor="let friend of friends" (click)="goToChat(friend)">-->
+            <!--<img class="rounded thumb-md"-->
+                 <!--[src]="friend.photoUrl ? friend.photoUrl : 'assets/img/sin-foto.png'">-->
+            <!--<div class="online-status"></div>-->
+            <!--<div class="text-center text-ellipsis">{{friend.nombre}} {{friend.apellidos}}</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</ion-scroll>-->
+
+      <!--<ion-scroll scrollX="true" *ngIf="typeUser === 'usuarios'">-->
+        <!--<div class="thumbs-wrapper">-->
+          <!--<div class="matches-thumb" *ngFor="let friend of friends" (click)="goToChat(friend)">-->
+            <!--<img class="rounded thumb-md"-->
+                 <!--[src]="friend.photoUrl ? friend.photoUrl : 'assets/img/sin-foto.png'">-->
+            <!--<div class="online-status"></div>-->
+            <!--<div class="text-center text-ellipsis">{{friend?.nombre}} {{friend?.apellidos}}</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</ion-scroll>-->
+
+    <!--</div>-->
+  <!--</div>-->
 
   <div>
     <div class="wrapper-xs padder">
@@ -44,30 +57,36 @@
         Mensajes
       </div>
     </div>
+
     <div class="wrapper-xs padder-sm">
-      <ion-row align-items-center (click)="goToChat()">
+      <ion-row align-items-center *ngFor="let friend of friends" (click)="goToChat(friend)">
         <ion-col col-auto>
-          <demo-avatar [sizeClass]="'thumb-md'"></demo-avatar>
+          <img class="rounded thumb-md"
+               [src]="friend.photoUrl ? friend.photoUrl : 'assets/img/sin-foto.png'">
         </ion-col>
         <ion-col>
           <div>
-            <div class="text-lg">Juan Hernandez</div>
-            <!--<div class="text-muted">Sent you a GIPHY</div>-->
-          </div>
-        </ion-col>
-      </ion-row>
-      <ion-row align-items-center (click)="goToChat()">
-        <ion-col col-auto>
-          <demo-avatar [sizeClass]="'thumb-md'"></demo-avatar>
-        </ion-col>
-        <ion-col>
-          <div>
-            <div class="text-lg">Pedro Salazar</div>
+            <div class="text-lg">{{friend?.nombre}} {{friend?.apellidos}}</div>
             <!--<div class="text-muted">Sent you a GIPHY</div>-->
           </div>
         </ion-col>
       </ion-row>
     </div>
+
+    <!--<div class="wrapper-xs padder-sm">-->
+      <!--<ion-row align-items-center *ngFor="let friend of friends" (click)="goToChat()">-->
+        <!--<ion-col col-auto>-->
+          <!--<img class="rounded thumb-md"-->
+               <!--[src]="friend.photoUrl ? friend.photoUrl : 'assets/img/sin-foto.png'">-->
+        <!--</ion-col>-->
+        <!--<ion-col>-->
+          <!--<div>-->
+            <!--<div class="text-lg">{{friend?.nombre}} {{friend?.apellidos}}</div>-->
+            <!--&lt;!&ndash;<div class="text-muted">Sent you a GIPHY</div>&ndash;&gt;-->
+          <!--</div>-->
+        <!--</ion-col>-->
+      <!--</ion-row>-->
+    <!--</div>-->
   </div>
 
 </ion-content>

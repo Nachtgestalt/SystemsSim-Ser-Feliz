@@ -107,12 +107,10 @@ export class UserProvider {
 
   deleteUser() {
     this.user = null;
-
     if ( this.platform.is('cordova') ) {
       this.storage.remove('user');
     }else {
       localStorage.removeItem('user');
     }
   }
-
 }

@@ -30,4 +30,12 @@ export class UtilsProvider {
     return age.years;
   }
 
+  getDate(date) {
+    let b = moment.unix(date).format("hh:mm A");
+    console.log('Fecha: ', b);
+
+    return b;
+
+  }
+
 }
