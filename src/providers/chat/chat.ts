@@ -3,9 +3,11 @@ import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} 
 import {Storage} from "@ionic/storage";
 import {Platform, ToastController} from "ionic-angular";
 import {map} from "rxjs/operators";
-import {Subscription} from "rxjs/Rx";
+import {Observable, Subscription} from "rxjs/Rx";
 import * as firebase from "firebase";
 import {UtilsProvider} from "../utils/utils";
+import {mergeMap, take} from "rxjs/operators";
+import {from, of} from "rxjs";
 
 /*
   Generated class for the ChatProvider provider.
@@ -31,12 +33,11 @@ export class ChatProvider {
               private platform: Platform,
               private toast: ToastController,
               private _utilsProv: UtilsProvider) {
-    this.loadStorage();
+    this.loadStorage().then();
   }
 
   getFriends(type, idDocument) {
-    console.log('Entre a getFriends');
-    let subscription: Subscription;
+    let subscription: Observable<any>;
     let friends = [];
     console.log('Tipo usuario: ' + type);
     type === 'terapeutas' ? this.userCollection = this.afS.collection('usuarios')
@@ -54,31 +55,69 @@ export class ChatProvider {
           .where('status', '==', 'aceptado')
       })
     }
-    console.log('relationShipCollection')
+
     return this.relationshipCollection.valueChanges()
       .pipe(
-        map((res: Array<any>) => {
-          console.log('Entre al map de getFriends');
-          res.forEach(
-            (friend) => {
-              console.log(friend);
-              let subscription: Subscription;
-              type === 'terapeutas' ? this.userDoc = this.userCollection.doc(friend.id_paciente) :
-                this.userDoc = this.userCollection.doc(friend.id_terapista);
-              subscription = this.userDoc.valueChanges()
-                .subscribe(
-                  res => {
-                    type === 'terapeutas' ? res.id = friend.id_paciente : res.id = friend.id_terapista;
-                    friends.push(res);
-                    subscription.unsubscribe();
-                  },
-                  error1 => console.log('Error enn chatProv: ' + JSON.stringify(error1))
-                )
-            }
-          );
-          return friends;
+        map( res => {
+          return this.getItems(res, type)
+        }),
+        mergeMap( res => {
+          console.log(res);
+          return res
         })
-      )
+      );
+
+    // return
+    // // Intento de mergemap
+    //   .pipe(
+    //     map((result: any) => {
+    //       console.log('Map', result);
+    //       return of(result).pipe(
+    //         mergeMap((res: any) => {
+    //           type === 'terapeutas' ? this.userDoc = this.userCollection.doc(res.id_paciente) :
+    //             this.userDoc = this.userCollection.doc(res.id_terapista);
+    //           return this.userDoc.valueChanges()
+    //         })
+    //       )
+    //     })
+    //   )
+
+
+    // console.log('Entre al map de getFriends');
+    // res.forEach(
+    //   (friend) => {
+    //     console.log(friend);
+    //     let subscription: Subscription;
+    //     type === 'terapeutas' ? this.userDoc = this.userCollection.doc(friend.id_paciente) :
+    //       this.userDoc = this.userCollection.doc(friend.id_terapista);
+    //     subscription = this.userDoc.valueChanges()
+    //       .pipe(
+    //         map(res => {
+    //           type === 'terapeutas' ? res.id = friend.id_paciente : res.id = friend.id_terapista;
+    //           console.log(res);
+    //           friends.push(res);
+    //           return friends
+    //           // subscription.unsubscribe();
+    //         })
+    //       )
+    //   }
+    // );
+    // return friends;
+  }
+
+  getItems(ids, type): Observable<any> {
+    return from(ids).pipe(
+      mergeMap((id: any) => {
+        type === 'terapeutas' ? this.userDoc = this.userCollection.doc(id.id_paciente) :
+          this.userDoc = this.userCollection.doc(id.id_terapista);
+        return this.userDoc.valueChanges().pipe(
+          map(res => {
+            res.id = id.id_paciente
+            return res
+          })
+        )
+      }
+    ));
   }
 
   loadMessages(idFriend) {
@@ -99,6 +138,7 @@ export class ChatProvider {
     console.log(this.idDocument);
     let mensaje = {
       idRemitente: idDocument,
+      idDestino: idFriend,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       mensaje: message
     };
@@ -109,7 +149,7 @@ export class ChatProvider {
   }
 
   loadStorage() {
-    return new Promise( resolve => {
+    return new Promise(resolve => {
       if (this.platform.is('cordova')) {
         this.storage.get('idDocument').then(val => {
           if (val) {

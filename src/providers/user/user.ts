@@ -113,4 +113,22 @@ export class UserProvider {
       localStorage.removeItem('user');
     }
   }
+
+  getTypeUser(){
+    const promise = new Promise((resolve, reject ) => {
+      this.storage.get('typeUser').then(
+        val => resolve(val)
+      );
+    });
+    return promise;
+  }
+
+  getIdDocument(){
+    const promise = new Promise((resolve, reject ) => {
+      this.storage.get('idDocument').then(
+        val => resolve(val)
+      );
+    });
+    return promise;
+  }
 }

@@ -5,7 +5,7 @@ import {LoadingController, ToastController} from "ionic-angular";
 import * as firebase from 'firebase';
 import 'rxjs/add/operator/map'
 import {Storage} from "@ionic/storage";
-import {AngularFirestore, AngularFirestoreDocument} from "angularfire2/firestore";
+import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from "angularfire2/firestore";
 
 @Injectable()
 export class UploadFilesProvider {
@@ -44,8 +44,7 @@ export class UploadFilesProvider {
       let storeRef = firebase.storage().ref();
       let fileName: string = new Date().valueOf().toString();
 
-      let uploadTask: firebase.storage.UploadTask =
-        storeRef.child(`profileImg/${fileName}`)
+      let uploadTask: firebase.storage.UploadTask = storeRef.child(`profileImg/${fileName}`)
           .putString(file.img, 'base64', {contentType: 'image/jpeg'});
       uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
         () => {
@@ -68,14 +67,43 @@ export class UploadFilesProvider {
         }
       )
     });
-
     return promise;
+  }
+
+  async uploadAudioToFirebase(buffer, fileName, info) {
+    let loading = this.loadingCtrl.create({
+      content: 'Guardando audio...'
+    });
+    loading.present();
+    let blob = new Blob([buffer], {type: 'audio/mp3'});
+    let storeRef = firebase.storage().ref(`meditaciones_audio`);
+    let uploadTask: firebase.storage.UploadTask = storeRef.child(`${info.id_terapista}/${fileName}`)
+      .put(blob);
+    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, () => {},
+      (error) => {
+        loading.dismiss();
+        console.log(JSON.stringify(error));
+        alert('Error al subir archivo')
+      },
+      () => {
+        loading.dismiss();
+        alert('Archivo subido con exito');
+        uploadTask.snapshot.ref.getDownloadURL().then(url => {
+          info['url'] = url;
+          this.saveOnFirebase(info);
+        });
+      });
   }
 
   setUrlImageUser(url) {
     console.log(`${this.typeUser}/${this.idDocument}`);
     this.userDocument = this.afS.doc(`${this.typeUser}/${this.idDocument}`);
     this.userDocument.update({photoUrl: url});
+  }
+
+  saveOnFirebase(data) {
+    let audioCollection: AngularFirestoreCollection = this.afS.collection('meditaciones_audio');
+    audioCollection.add(data);
   }
 
   presentToast(message: string) {

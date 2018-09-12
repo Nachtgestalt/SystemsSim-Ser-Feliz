@@ -1,0 +1,38 @@
+<ion-content padding>
+  <ion-list class="margin-top10">
+    <ion-item-sliding *ngFor="let audio of audios">
+      <ion-item>
+        <button item-start (click)="play(audio.url)">
+          <ion-icon name="play"></ion-icon>
+        </button>
+        <h2>{{audio.titulo}}</h2>
+        <p>{{audio.descripcion}}</p>
+        <button ion-button clear item-end>
+          <ion-icon name="more" item-end></ion-icon>
+        </button>
+      </ion-item>
+      <ion-item-options side="left">
+        <button ion-button color="danger">
+          <ion-icon name="trash"></ion-icon>
+          Eliminar
+        </button>
+      </ion-item-options>
+      <ion-item-options side="right">
+        <button ion-button color="bg" (click)="showPatients(audio)">
+          <ion-icon name="share"></ion-icon>
+          Compartir
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <audio *ngIf="audioUrl" [src]="audioUrl" controls autoplay loop>
+    <p>Tu navegador no implementa el elemento audio</p>
+  </audio>
+
+  <ion-fab right bottom>
+    <button ion-fab (click)="recordAudio()">
+      <ion-icon name="cloud-upload"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

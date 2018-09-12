@@ -1,0 +1,18 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Relajación</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-tabs selectedIndex="0" *ngIf="isReady">
+    <ion-tab [root]="tab1Root" tabTitle="Videos"></ion-tab>
+    <ion-tab [root]="tab2Root" tabTitle="Audios"></ion-tab>
+    <ion-tab *ngIf="typeUser == 'usuarios'" [root]="tab3Root" tabTitle="Objetivos"></ion-tab>
+  </ion-tabs>
+
+</ion-content>

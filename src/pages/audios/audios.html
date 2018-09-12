@@ -1,0 +1,19 @@
+<ion-content padding>
+  <ion-list class="margin-top10">
+    <ion-item *ngFor="let audio of audios">
+      <button item-start (click)="play(audio.url)">
+        <ion-icon name="play"></ion-icon>
+      </button>
+      <h2>{{audio.titulo}}</h2>
+      <p>{{audio.descripcion}}</p>
+      <button ion-button clear item-end>
+        <ion-icon name="more" item-end></ion-icon>
+      </button>
+    </ion-item>
+  </ion-list>
+
+  <audio *ngIf="audioUrl" [src]="audioUrl" controls autoplay loop>
+    <p>Tu navegador no implementa el elemento audio</p>
+  </audio>
+
+</ion-content>

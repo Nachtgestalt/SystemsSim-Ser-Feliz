@@ -1,18 +1,12 @@
-<!--
-  Generated template for the ListOfRequestPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
     <ion-title>Solicitudes pendientes</ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="goToMessaging()">
-        <ion-icon name="ios-chatbubbles" color="muted"></ion-icon>
-      </button>
-    </ion-buttons>
+    <!--<ion-buttons end>-->
+      <!--<button ion-button icon-only (click)="goToMessaging()">-->
+        <!--<ion-icon name="ios-chatbubbles" color="muted"></ion-icon>-->
+      <!--</button>-->
+    <!--</ion-buttons>-->
   </ion-navbar>
 
 </ion-header>
@@ -30,12 +24,11 @@
       <ion-row align-items-center
                *ngFor="let request of requests">
         <ion-col col-auto>
-          <img class="rounded thumb" [src]="request.userInfo.photoUrl ? request.userInfo.photoUrl : 'assets/img/sin-foto.png'">
+          <img class="rounded thumb" [src]="request?.informacion_usuario.photoUrl ? request.informacion_usuario.photoUrl : 'assets/img/sin-foto.png'">
         </ion-col>
         <ion-col>
           <div>
-            <div class="text-lg">{{request.userInfo.nombre}} {{request.userInfo.apellidos}}, {{request.userInfo.edad}}</div>
-            <!--<div class="text-muted">Sent you a GIPHY</div>-->
+            <div class="text-lg">{{request?.informacion_usuario.nombre}} {{request?.informacion_usuario.apellidos}}, {{request?.informacion_usuario.edad}}</div>
           </div>
         </ion-col>
         <ion-col col-auto>

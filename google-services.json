@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1031764141009",
+    "firebase_url": "https://ser-feliz-61e39.firebaseio.com",
+    "project_id": "ser-feliz-61e39",
+    "storage_bucket": "ser-feliz-61e39.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1031764141009:android:f025209509fc6b7f",
+        "android_client_info": {
+          "package_name": "mx.com.systemssym.serfeliz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1031764141009-medncv5lrs8m2ur5t41sg5thts5ucl87.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mx.com.systemssym.serfeliz",
+            "certificate_hash": "68914e143c5d2162c726b6bd91d546e4b485a076"
+          }
+        },
+        {
+          "client_id": "1031764141009-lh0b5cj7fiqcquih0cjisbeuhqt6dkdq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAFV7CXIx6I7-zA2lEeF3qz5uY117JzCU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1031764141009-lh0b5cj7fiqcquih0cjisbeuhqt6dkdq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

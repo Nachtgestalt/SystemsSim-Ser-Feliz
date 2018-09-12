@@ -58,6 +58,20 @@ import {DirectivesModule} from "../directives/directives.module";
 import {Keyboard} from "@ionic-native/keyboard";
 import {PipesModule} from "../pipes/pipes.module";
 import { PaginationProvider } from '../providers/pagination/pagination';
+import { FcmProvider } from '../providers/fcm/fcm';
+import {RelaxPage} from "../pages/relax/relax";
+import {VideosPage} from "../pages/videos/videos";
+import {Firebase} from "@ionic-native/firebase";
+import {AudiosPage} from "../pages/audios/audios";
+import {ObjectivesPage} from "../pages/objectives/objectives";
+import {VideosTherapistPage} from "../pages/videos-therapist/videos-therapist";
+import {AudiosTherapistPage} from "../pages/audios-therapist/audios-therapist";
+import {RecordVideoPage} from "../pages/record-video/record-video";
+import { RelaxProvProvider } from '../providers/relax-prov/relax-prov';
+import {File} from "@ionic-native/file";
+import {FileChooser} from "@ionic-native/file-chooser";
+import {FilePath} from "@ionic-native/file-path";
+import {RecordAudioPage} from "../pages/record-audio/record-audio";
 
 @NgModule({
   declarations: [
@@ -78,6 +92,14 @@ import { PaginationProvider } from '../providers/pagination/pagination';
     SignUpProfessionalInfoPage,
     SignUpCredentialsPage,
     MenuPage,
+    RelaxPage,
+    VideosPage,
+    VideosTherapistPage,
+    RecordVideoPage,
+    AudiosPage,
+    RecordAudioPage,
+    AudiosTherapistPage,
+    ObjectivesPage,
     MePage,
     EditProfilePage,
     MessagingPage,
@@ -123,6 +145,14 @@ import { PaginationProvider } from '../providers/pagination/pagination';
     SignUpCredentialsPage,
     TypeOfUserPage,
     MenuPage,
+    RelaxPage,
+    VideosPage,
+    VideosTherapistPage,
+    RecordVideoPage,
+    AudiosPage,
+    RecordAudioPage,
+    AudiosTherapistPage,
+    ObjectivesPage,
     MePage,
     EditProfilePage,
     MessagingPage,
@@ -132,6 +162,9 @@ import { PaginationProvider } from '../providers/pagination/pagination';
   ],
   providers: [
     StatusBar,
+    File,
+    FilePath,
+    FileChooser,
     SplashScreen,
     ImagePicker,
     Keyboard,
@@ -147,7 +180,10 @@ import { PaginationProvider } from '../providers/pagination/pagination';
     TrackingProvider,
     TherapistsProvider,
     ChatProvider,
-    PaginationProvider
+    PaginationProvider,
+    Firebase,
+    FcmProvider,
+    RelaxProvProvider
   ]
 })
 export class AppModule {}

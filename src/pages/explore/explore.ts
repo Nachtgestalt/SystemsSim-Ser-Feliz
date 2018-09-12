@@ -33,11 +33,8 @@ export class ExplorePage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public userProv: UserProvider,
               public _therapistProv: TherapistsProvider,
-              private afAuth: AngularFireAuth,
               public modalCtrl: ModalController,
               public app: App) {
-
-    this.getRequestFriends();
     this.stackConfig = {
       // Default setting only allows UP, LEFT and RIGHT so you can override this as below
       allowedDirections: [
@@ -60,55 +57,6 @@ export class ExplorePage {
 
   ngAfterViewInit() {
     this.cards = [];
-
-    // this.users = [
-    //   {
-    //     id: 1,
-    //     name: 'Hieu Pham',
-    //     age: 29,
-    //     job_title: 'UX/UI lover',
-    //     profile_image_url: 'assets/img/hieu.png'
-    //   },
-    //   {
-    //     id: 2,
-    //     name: 'Adam Saddler',
-    //     age: 39,
-    //     job_title: 'Ionic Team is awesome',
-    //     profile_image_url: 'assets/img/adam.png'
-    //   },
-    //   {
-    //     id: 3,
-    //     name: 'Ben Affleck',
-    //     age: 30,
-    //     job_title: 'Another awesome Ionic guy',
-    //     profile_image_url: 'assets/img/ben.png'
-    //   },
-    //   {
-    //     id: 4,
-    //     name: 'Max Payne',
-    //     age: 35,
-    //     job_title: 'Game character assasin',
-    //     profile_image_url: 'assets/img/max.png'
-    //   },
-    //   {
-    //     id: 5,
-    //     name: 'Big Mike',
-    //     age: 31,
-    //     job_title: 'All guys are awesome',
-    //     profile_image_url: 'assets/img/mike.png'
-    //   },
-    //   {
-    //     id: 6,
-    //     name: 'Perry',
-    //     age: 41,
-    //     job_title: 'Ionic again',
-    //     profile_image_url: 'assets/img/perry.png'
-    //   }
-    // ];
-
-    // setTimeout(() => {
-    // this.isLoading = false;
-    // }, 1500);
   }
 
   ionViewDidLoad() {
@@ -178,10 +126,6 @@ export class ExplorePage {
     this.checkMatching(removedCard);
 
     console.log('You liked: ' + removedCard.name);
-  }
-
-  getRequestFriends() {
-    this._therapistProv.getPatientsRequest();
   }
 
   checkMatching(card) {

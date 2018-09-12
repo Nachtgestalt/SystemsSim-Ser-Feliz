@@ -1,0 +1,36 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Registrar video</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form [formGroup]="form" (submit)="recordVideo()">
+    <ion-item>
+      <ion-label color="primary" floating>Titulo: </ion-label>
+      <ion-input type="text" formControlName="titulo"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="primary" floating>Descripción </ion-label>
+      <ion-input type="text" formControlName="descripcion"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="primary" floating>ID de youtube</ion-label>
+      <ion-input type="text" formControlName="id"></ion-input>
+    </ion-item>
+
+    <!--<iframe width="100%" height="315" [src]="video.urlVideo | youtube" frameborder="0" allowfullscreen></iframe>-->
+
+    <button ion-button block color="bg" class="margin-top10" type="submit">
+      Registrar video
+    </button>
+    <button ion-button block color="danger" class="margin-top10" type="button" (click)="dismiss()">
+      Cancelar
+    </button>
+  </form>
+</ion-content>

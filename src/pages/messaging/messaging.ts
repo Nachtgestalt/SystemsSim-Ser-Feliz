@@ -35,7 +35,7 @@ export class MessagingPage {
     this.subscribe = this._chatProv.getFriends(this.typeUser, this.idDocument)
       .subscribe(
         res => {
-          this.friends = res;
+          this.friends.push(res);
           console.log(res);
         },
         error1 => {

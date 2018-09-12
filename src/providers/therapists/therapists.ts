@@ -19,8 +19,8 @@ export class TherapistsProvider {
   user;
 
   constructor(public _utilsProv: UtilsProvider,
-              private storage: Storage,
               private afS: AngularFirestore,
+              private storage: Storage,
               private platform: Platform,
               private toast: ToastController) {
     console.log('Hello TherapistsProvider Provider');
@@ -64,7 +64,7 @@ export class TherapistsProvider {
               id_terapista: id,
               id_usuario: this.idDocument,
               status: 'recibida',
-              userInfo: JSON.parse(this.user)
+              informacion_usuario: JSON.parse(this.user)
             }
           ).then(
             () => {
@@ -88,87 +88,14 @@ export class TherapistsProvider {
       error1 => console.error(error1),
       () => console.log('Completado')
     );
-
-    // this.requestConsultationCollection.add(
-    //   {
-    //     requestId: this.idDocument,
-    //     status: 0,
-    //   }
-    // )
-    //   .then(
-    //     () => {
-    //       this.presentToast('Solicitud enviada con exito')
-    //
-    //     }
-    //   )
-    //   .catch(
-    //     () => this.presentToast('Error al enviar soliciutd')
-    //   )
-
-    // this.requestConsultationCollection.doc(this.idDocument).update(dataSent)
-    //   .then(
-    //     () => {
-    //       this.requestConsultationCollection.doc(id).update(dataReceive)
-    //         .then(
-    //           () => {
-    //             console.log('Solicitud enviada con exito');
-    //             this.presentToast('Solicitud enviada con exito');
-    //           }
-    //         )
-    //         .catch(
-    //           () => {
-    //             this.requestConsultationCollection.doc(id).set(dataReceive).then(
-    //               () => {
-    //                 console.log('Solicitud enviada con exito');
-    //                 this.presentToast('Solicitud enviada con exito');
-    //               }
-    //             )
-    //           }
-    //         )
-    //     })
-    //   .catch(
-    //     () => {
-    //       this.requestConsultationCollection.doc(this.idDocument).set(dataSent)
-    //         .then(
-    //           () => {
-    //             this.requestConsultationCollection.doc(id).update(dataReceive)
-    //               .then(
-    //                 () => {
-    //                   console.log('Solicitud enviada con exito')
-    //                   this.presentToast('Solicitud enviada con exito');
-    //                 }
-    //               )
-    //               .catch(
-    //                 () => {
-    //                   this.requestConsultationCollection.doc(id).set(dataReceive)
-    //                     .then(
-    //                       () => {
-    //                         console.log('Solicitud enviada con exito');
-    //                         this.presentToast('Solicitud enviada con exito');
-    //                       }
-    //                     )
-    //                 }
-    //               )
-    //           }
-    //         )
-    //         .catch(
-    //           () => {
-    //             console.log('Error al enviar la solicitud');
-    //             this.presentToast('Error al enviar la solicitud');
-    //           }
-    //         )
-    //     }
-    //   )
   }
 
-  getPatientsRequest() {
-    this.loadStorage();
+  getPatientsRequest(idDocument) {
     this.requestConsultationCollection = this.afS.collection('solicitudes', ref => {
       return ref
-        .where('id_terapista', '==', this.idDocument)
+        .where('id_terapista', '==', idDocument)
         .where('status', '==', 'recibida')
     });
-
 
     return this.requestConsultationCollection.valueChanges().pipe(
       map(
@@ -176,7 +103,7 @@ export class TherapistsProvider {
           console.log(res);
           res.forEach(
             (x) => {
-              x.userInfo.edad = this._utilsProv.getAgeOnlyYear(x.userInfo.fecha_nacimiento);
+              x.informacion_usuario.edad = this._utilsProv.getAgeOnlyYear(x.informacion_usuario.fecha_nacimiento);
             }
           );
           return res;
@@ -185,23 +112,23 @@ export class TherapistsProvider {
     );
   }
 
-  confirmRequest(patient) {
+  confirmRequest(patient, idDocument) {
     const idPatient = patient.id_usuario;
     console.log(patient);
     this.loadStorage();
     this.relationshipCollection = this.afS.collection('relaciones');
     this.requestConsultationCollection = this.afS.collection('solicitudes');
     console.log(`${idPatient}_${this.idDocument}`);
-    this.requestConsultationCollection.doc(`${idPatient}_${this.idDocument}`).delete()
+    this.requestConsultationCollection.doc(`${idPatient}_${idDocument}`).delete()
       .then(
         () => {
-          this.relationshipCollection.doc(`${idPatient}_${this.idDocument}`).set(
+          this.relationshipCollection.doc(`${idPatient}_${idDocument}`).set(
             {
               id_paciente: idPatient,
-              id_terapista: this.idDocument,
+              id_terapista: idDocument,
               status: 'aceptado',
               fecha_aceptado: firebase.firestore.FieldValue.serverTimestamp(),
-              paciente_info: patient.userInfo,
+              paciente_info: patient.informacion_usuario,
               terapista_info: JSON.parse(this.user)
             }
           ).then(
@@ -227,30 +154,35 @@ export class TherapistsProvider {
   }
 
   loadStorage() {
-    if (this.platform.is('cordova')) {
-      this.storage.get('idDocument').then(val => {
-        if (val) {
-          this.idDocument = val;
-        }
-      });
-      this.storage.get('user')
-        .then(
-          val => {
-            if (val) {
-              this.user = val;
-            }
+    return new Promise( (resolve, reject ) => {
+      if (this.platform.is('cordova')) {
+        this.storage.get('idDocument').then(val => {
+          if (val) {
+            this.idDocument = val;
           }
-        );
-      this.storage.get('typeUser').then(val => {
-        if (val) {
-          this.typeUser = val;
-        }
-      });
-    } else {
-      this.idDocument = localStorage.getItem('idDocument');
-      this.typeUser = localStorage.getItem('typeUser');
-      this.user = localStorage.getItem('user');
-    }
+        });
+        this.storage.get('user')
+          .then(
+            val => {
+              if (val) {
+                this.user = val;
+              }
+            }
+          );
+        this.storage.get('typeUser').then(val => {
+          if (val) {
+            this.typeUser = val;
+          }
+        });
+        return resolve();
+      } else {
+        this.idDocument = localStorage.getItem('idDocument');
+        this.typeUser = localStorage.getItem('typeUser');
+        this.user = localStorage.getItem('user');
+        return resolve();
+      }
+    });
+
   }
 
 }
