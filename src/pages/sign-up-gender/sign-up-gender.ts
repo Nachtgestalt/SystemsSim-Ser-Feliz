@@ -1,9 +1,7 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {SignUpCredentialsPage} from "../sign-up-credentials/sign-up-credentials";
 import {AngularFirestore} from "angularfire2/firestore";
-import {MenuPage} from "../menu/menu";
 import {SignUpTelephonePage} from "../sign-up-telephone/sign-up-telephone";
 
 @IonicPage()

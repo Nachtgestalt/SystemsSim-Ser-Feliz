@@ -6,29 +6,10 @@
              [src]="friend.photoUrl ? friend.photoUrl : 'assets/img/sin-foto.png'">
       </div>
     </ion-title>
-
-    <!--<ion-buttons end>-->
-    <!--<button ion-button icon-only>-->
-    <!--<ion-icon name="md-flag" color="danger"></ion-icon>-->
-    <!--</button>-->
-    <!--</ion-buttons>-->
   </ion-navbar>
 </ion-header>
 
 <ion-content #content padding>
-  <!--<ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite())">-->
-    <!--<ion-infinite-scroll-content-->
-      <!--loadingSpinner="bubbles"-->
-      <!--loadingText="Cargando mensajes">-->
-    <!--</ion-infinite-scroll-content>-->
-  <!--</ion-infinite-scroll>-->
-  <!--<div *ngFor="let message of _paginationProv.data | async; trackBy: trackByFn; let i = index" class="message"-->
-       <!--[ngClass]="{'received': message.idRemitente === friend.id, 'sent': message.idRemitente !== friend.id}">-->
-    <!--{{message.mensaje}}-->
-    <!--<span class="metadata">-->
-      <!--<span class="time">{{message.timestamp?.seconds ? (message.timestamp.seconds | hourMinute) : '' }}</span>-->
-    <!--</span>-->
-  <!--</div>-->
   <div *ngFor="let message of messages; let i = index" class="message"
        [ngClass]="{'received': message.idRemitente === friend.id, 'sent': message.idRemitente !== friend.id}">
     {{message.mensaje}}
@@ -40,14 +21,7 @@
 </ion-content>
 
 <ion-footer no-border [keyboardAttach]="content">
-  <!--<giphy *ngIf="showGiphy" (onSelect)="sendGif($event)" (onClose)="toggleGiphy()"></giphy>-->
-
   <ion-toolbar class="has-elastic-input giphy-input" *ngIf="!showGiphy">
-    <!--<ion-buttons left align-self-bottom class="stick-bottom">-->
-    <!--<button ion-button small class="button-gif" (click)="toggleGiphy()">-->
-    <!--GIF-->
-    <!--</button>-->
-    <!--</ion-buttons>-->
     <ion-textarea fz-elastic [(ngModel)]="typingMessage" placeholder="Escribir mensaje"></ion-textarea>
     <ion-buttons right class="stick-bottom button-submit">
       <button type="submit" [disabled]="typingMessage.length == 0" ion-button small color="dark"

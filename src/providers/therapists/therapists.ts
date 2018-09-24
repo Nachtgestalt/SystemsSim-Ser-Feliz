@@ -27,7 +27,9 @@ export class TherapistsProvider {
   }
 
   getTherapists() {
-    this.therapistCollection = this.afS.collection('terapeutas');
+    this.therapistCollection = this.afS.collection('usuarios', ref => {
+      return ref.where('tipoUsuario', '==', 'terapeutas')
+    });
     return this.therapistCollection.snapshotChanges().pipe(
       map(actions => {
         return actions.map(a => {
@@ -44,7 +46,6 @@ export class TherapistsProvider {
     this.loadStorage();
     let id = user.id;
     let dataSent = {};
-    let toast;
     dataSent[id] = {
       tipo_solicitud: 'enviado'
     };
@@ -154,7 +155,7 @@ export class TherapistsProvider {
   }
 
   loadStorage() {
-    return new Promise( (resolve, reject ) => {
+    return new Promise((resolve, reject) => {
       if (this.platform.is('cordova')) {
         this.storage.get('idDocument').then(val => {
           if (val) {

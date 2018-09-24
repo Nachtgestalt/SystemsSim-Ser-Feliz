@@ -1,6 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
 import {AlertController, App, IonicPage, NavController, NavParams, Slides} from 'ionic-angular';
-import {ExplorePage} from "../explore/explore";
 import {UserProvider} from "../../providers/user/user";
 
 import {AngularFireAuth} from 'angularfire2/auth';
@@ -63,23 +62,81 @@ export class WelcomePage {
       password: data.password
     };
     this.auth.signInWithEmail(credentials)
-      .then(
-        user => {
-          console.log('User email: ' + JSON.stringify(user));
-          this.auth.verifyAccountExist('usuarios', user.user.uid).then(
-            existe => {
-              if (existe) {
-                this.navCtrl.setRoot(MenuPage)
-              } else {
-                this.auth.verifyAccountExist('terapeutas', user.user.uid).then(
-                  existe => {
-                    if (existe) {
-                      this.navCtrl.setRoot(MenuPage)
-                    }
-                  });
-              }
+      .then(user => {
+        console.log('User email: ', user);
+        this.auth.verifyAccountExist(user.user.uid)
+          .then(existe => this.navCtrl.setRoot(MenuPage));
+      })
+      .catch(err => {
+        console.log(err);
+        this.alertCtrl.create({
+          title: 'Error al autenticar',
+          subTitle: 'Usuario y/o contraseña incorrectos',
+          buttons: ['Aceptar']
+        }).present();
+      })
+    // if (existe) {
+    //   this.navCtrl.setRoot(MenuPage)
+    // } else {
+    //   this.auth.verifyAccountExist(user.user.uid).then(
+    //     existe => {
+    //       if (existe) {
+    //         this.navCtrl.setRoot(MenuPage)
+    //       }
+    //     });
+    // }
+  }
+
+  googleLogin() {
+    if (this.platform.is('cordova')) {
+      this.nativeGoogleLogin()
+        .then((user: any) => {
+          console.log(user);
+          this.auth.verifyAccountExist(user.user.uid)
+            .then(existe => {
+              existe ? this.navCtrl.setRoot(MenuPage) : this.navCtrl.push(TypeOfUserPage, {
+                key: user.user.uid,
+                provider: 'google'
+              });
+            })
+            .catch(error => {
+              this.alertCtrl.create({
+                title: 'No existe usuario',
+                subTitle: 'Cree una cuenta nueva para poder ingresar',
+                buttons: ['Aceptar']
+              }).present();
+              console.log("Firebase failure: ", error);
             });
-        });
+        })
+        .catch(() => this.googlePlus.disconnect().then(() => console.log('Saliendo de google')));
+    } else {
+      this.webGoogleLogin();
+    }
+  }
+
+  async nativeGoogleLogin(): Promise<any> {
+    try {
+      const gplusUser = await this.googlePlus.login({
+        'webClientId': '1031764141009-lh0b5cj7fiqcquih0cjisbeuhqt6dkdq.apps.googleusercontent.com',
+        'offline': true
+      });
+
+      return await this.afAuth.auth.signInAndRetrieveDataWithCredential(
+        firebase.auth.GoogleAuthProvider.credential(gplusUser.idToken)
+      )
+    } catch (err) {
+      this.googlePlus.logout().then(() => console.log('Saliendo de google'));
+      console.log(err);
+    }
+  }
+
+  async webGoogleLogin(): Promise<any> {
+    try {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      const credential = await this.afAuth.auth.signInWithPopup(provider)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   signInGoogle() {
@@ -87,14 +144,15 @@ export class WelcomePage {
       'webClientId': '1031764141009-lh0b5cj7fiqcquih0cjisbeuhqt6dkdq.apps.googleusercontent.com',
       'offline': true
     }).then(res => {
+      console.log('Aqui si entro en el login google');
       firebase.auth().signInAndRetrieveDataWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken))
         .then((user: any) => {
-          this.auth.verifyAccountExist('usuarios', user.user.uid).then(
+          this.auth.verifyAccountExist(user.user.uid).then(
             existe => {
               if (existe) {
                 this.navCtrl.setRoot(MenuPage)
               } else {
-                this.auth.verifyAccountExist('terapeutas', user.user.uid).then(
+                this.auth.verifyAccountExist(user.user.uid).then(
                   existe => {
                     if (existe) {
                       this.navCtrl.setRoot(MenuPage)
@@ -112,7 +170,7 @@ export class WelcomePage {
         })
         .catch(error => {
           this.alertCtrl.create({
-            title:'No existe usuario',
+            title: 'No existe usuario',
             subTitle: 'Cree una cuenta nueva para poder ingresar',
             buttons: ['Aceptar']
           }).present();
@@ -129,10 +187,29 @@ export class WelcomePage {
       // Cellphone
       this.fb.login(['email', 'public_profile']).then(res => {
         const facebookCredential = firebase.auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
-        firebase.auth().signInWithCredential(facebookCredential)
+        firebase.auth().signInAndRetrieveDataWithCredential(facebookCredential)
           .then(user => {
-            this.navCtrl.setRoot(ExplorePage);
-          }).catch(e => console.log('Error con el login' + JSON.stringify(e)));
+            console.log(user);
+            this.auth.verifyAccountExist(user.user.uid)
+              .then(existe => {
+                existe ? this.navCtrl.setRoot(MenuPage) : this.navCtrl.push(TypeOfUserPage, {
+                  key: user.user.uid,
+                  provider: 'google'
+                });
+              })
+              .catch(error => {
+                this.alertCtrl.create({
+                  title: 'No existe usuario',
+                  subTitle: 'Cree una cuenta nueva para poder ingresar',
+                  buttons: ['Aceptar']
+                }).present();
+                console.log("Firebase failure: " + JSON.stringify(error))
+              });
+          })
+          .then(() => this.navCtrl.setRoot(MenuPage))
+          .catch(err => console.log(err))
+        //   this.navCtrl.setRoot(MenuPage);
+        // }).catch(e => console.log('Error con el login' + JSON.stringify(e)));
       })
     } else {
       // Desktop

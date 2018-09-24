@@ -8,19 +8,11 @@ import {
   Platform,
   ToastController
 } from 'ionic-angular';
-import {OptionsPage} from "../options/options";
 import {RecordVideoPage} from "../record-video/record-video";
 import {RelaxProvProvider} from "../../providers/relax-prov/relax-prov";
 import {ChatProvider} from "../../providers/chat/chat";
 import {Storage} from "@ionic/storage";
 import {UserProvider} from "../../providers/user/user";
-
-/**
- * Generated class for the VideosTherapistPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -78,7 +70,6 @@ export class VideosTherapistPage {
   }
 
   showPatients(video) {
-    let resultado
     let alert = this.alertCtrl.create();
     alert.addButton('Cancelar');
     alert.addButton({

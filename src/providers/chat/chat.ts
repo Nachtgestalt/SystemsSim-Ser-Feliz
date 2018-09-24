@@ -1,20 +1,14 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from "angularfire2/firestore";
 import {Storage} from "@ionic/storage";
-import {Platform, ToastController} from "ionic-angular";
+import {Platform} from "ionic-angular";
 import {map} from "rxjs/operators";
-import {Observable, Subscription} from "rxjs/Rx";
+import {Observable} from "rxjs/Rx";
 import * as firebase from "firebase";
-import {UtilsProvider} from "../utils/utils";
-import {mergeMap, take} from "rxjs/operators";
-import {from, of} from "rxjs";
+import {mergeMap} from "rxjs/operators";
+import {from} from "rxjs";
+import {UserProvider} from "../user/user";
 
-/*
-  Generated class for the ChatProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class ChatProvider {
 
@@ -31,17 +25,15 @@ export class ChatProvider {
   constructor(private storage: Storage,
               private afS: AngularFirestore,
               private platform: Platform,
-              private toast: ToastController,
-              private _utilsProv: UtilsProvider) {
+              public _userProv: UserProvider) {
     this.loadStorage().then();
   }
 
   getFriends(type, idDocument) {
-    let subscription: Observable<any>;
-    let friends = [];
     console.log('Tipo usuario: ' + type);
-    type === 'terapeutas' ? this.userCollection = this.afS.collection('usuarios')
-      : this.userCollection = this.afS.collection('terapeutas');
+    this.userCollection = this.afS.collection('usuarios');
+    // type === 'terapeutas' ? this.userCollection = this.afS.collection('usuarios')
+    //   : this.userCollection = this.afS.collection('terapeutas');
     if (type === 'terapeutas') {
       this.relationshipCollection = this.afS.collection('relaciones', ref => {
         return ref
@@ -66,53 +58,18 @@ export class ChatProvider {
           return res
         })
       );
-
-    // return
-    // // Intento de mergemap
-    //   .pipe(
-    //     map((result: any) => {
-    //       console.log('Map', result);
-    //       return of(result).pipe(
-    //         mergeMap((res: any) => {
-    //           type === 'terapeutas' ? this.userDoc = this.userCollection.doc(res.id_paciente) :
-    //             this.userDoc = this.userCollection.doc(res.id_terapista);
-    //           return this.userDoc.valueChanges()
-    //         })
-    //       )
-    //     })
-    //   )
-
-
-    // console.log('Entre al map de getFriends');
-    // res.forEach(
-    //   (friend) => {
-    //     console.log(friend);
-    //     let subscription: Subscription;
-    //     type === 'terapeutas' ? this.userDoc = this.userCollection.doc(friend.id_paciente) :
-    //       this.userDoc = this.userCollection.doc(friend.id_terapista);
-    //     subscription = this.userDoc.valueChanges()
-    //       .pipe(
-    //         map(res => {
-    //           type === 'terapeutas' ? res.id = friend.id_paciente : res.id = friend.id_terapista;
-    //           console.log(res);
-    //           friends.push(res);
-    //           return friends
-    //           // subscription.unsubscribe();
-    //         })
-    //       )
-    //   }
-    // );
-    // return friends;
   }
 
   getItems(ids, type): Observable<any> {
     return from(ids).pipe(
       mergeMap((id: any) => {
+        console.log(id);
         type === 'terapeutas' ? this.userDoc = this.userCollection.doc(id.id_paciente) :
           this.userDoc = this.userCollection.doc(id.id_terapista);
         return this.userDoc.valueChanges().pipe(
           map(res => {
-            res.id = id.id_paciente
+            type === 'terapeutas' ? res.id = id.id_paciente : res.id = id.id_terapista;
+            // res.id = id.id_paciente
             return res
           })
         )
@@ -120,13 +77,13 @@ export class ChatProvider {
     ));
   }
 
-  loadMessages(idFriend) {
-    this.loadStorage().then();
+  loadMessages(idFriend, idDocument) {
+
     this.typeUser === 'terapeutas' ? this.chatCollection = this.afS.collection('relaciones')
-        .doc(`${idFriend}_${this.idDocument}`)
+        .doc(`${idFriend}_${idDocument}`)
         .collection('mensajes', ref => ref.orderBy('timestamp', 'asc'))
       : this.chatCollection = this.afS.collection('relaciones')
-        .doc(`${this.idDocument}_${idFriend}`)
+        .doc(`${idDocument}_${idFriend}`)
         .collection('mensajes', ref => ref.orderBy('timestamp', 'asc'))
     return this.chatCollection.valueChanges();
   }
@@ -177,7 +134,6 @@ export class ChatProvider {
         resolve();
       }
     });
-
   }
 
 }

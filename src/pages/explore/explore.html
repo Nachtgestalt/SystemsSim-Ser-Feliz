@@ -1,17 +1,9 @@
 <ion-header no-border>
-
   <ion-navbar color="white">
     <ion-title>
       <img src="../../assets/img/se_feliz.png" width="64" alt="" (click)="goToMenu()">
     </ion-title>
-
-    <!--<ion-buttons end>-->
-      <!--<button ion-button icon-only (click)="goToMessaging()">-->
-        <!--<ion-icon name="ios-chatbubbles" color="muted"></ion-icon>-->
-      <!--</button>-->
-    <!--</ion-buttons>-->
   </ion-navbar>
-
 </ion-header>
 
 <ion-content class="swipe-bg" no-bounce>
@@ -24,6 +16,16 @@
       <div class="ripple-2"></div>
     </div>
   </div>
+
+  <!--<div class="h-full no-cards" [hidden]="noUsers" horizontal layout center center-center>-->
+    <!--<div class="ripple-container">-->
+      <!--<div class="thumb-lg ripple-trigger">-->
+        <!--<p>No hay resultados</p>-->
+      <!--</div>-->
+      <!--<div class="ripple-1"></div>-->
+      <!--<div class="ripple-2"></div>-->
+    <!--</div>-->
+  <!--</div>-->
 
   <div class="swipe-container" [hidden]="isLoading">
     <div class="h-full wrapper-sm">

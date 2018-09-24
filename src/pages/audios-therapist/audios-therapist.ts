@@ -1,21 +1,9 @@
 import {Component} from '@angular/core';
 import {AlertController, IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
-import {FileChooser} from "@ionic-native/file-chooser";
-import * as firebase from "firebase";
 import {ChatProvider} from "../../providers/chat/chat";
 import {RelaxProvProvider} from "../../providers/relax-prov/relax-prov";
 import {UserProvider} from "../../providers/user/user";
-import {FilePath} from "@ionic-native/file-path";
-import {File} from "@ionic-native/file";
-import {UploadFilesProvider} from "../../providers/upload-files/upload-files";
 import {RecordAudioPage} from "../record-audio/record-audio";
-
-/**
- * Generated class for the AudiosTherapistPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -27,7 +15,7 @@ export class AudiosTherapistPage {
   typeUser = '';
   friends = [];
   audios = [];
-  audioUrl = ''
+  audioUrl = '';
 
   audio = new Audio();
 
@@ -69,7 +57,6 @@ export class AudiosTherapistPage {
   }
 
   showPatients(video) {
-    let resultado
     let alert = this.alertCtrl.create();
     alert.addButton('Cancelar');
     alert.addButton({

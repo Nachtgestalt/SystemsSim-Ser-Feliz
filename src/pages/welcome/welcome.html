@@ -39,7 +39,9 @@
 
       <button ion-button round block
               icon-left
-              color="google" (click)="signInGoogle()">
+              color="google"
+              (tap)="googleLogin()">
+        <!--(click)="signInGoogle()">-->
         <ion-icon name="logo-google"></ion-icon>
         INGRESAR CON GOOGLE
       </button>

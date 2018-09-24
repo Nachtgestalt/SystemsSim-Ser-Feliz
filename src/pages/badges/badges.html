@@ -1,0 +1,36 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Reconocimientos</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <!--<ion-card *ngIf="badges.length === 0">-->
+    <div class="content" *ngIf="badges.length === 0">
+      <h2>Aun no te has propuesto un objetivo</h2>
+      <p>Ve a la sección de Relajación, objetivos y habitos para empezar un nuevo objetivo</p>
+      <!--<p></p>-->
+    </div>
+
+
+
+  <ion-card *ngFor="let badge of badges">
+    <ion-item>
+      <h2>{{badge?.titulo}} - {{badge.porcentaje | number}}%</h2>
+      <!--<p>{{badge?.fecha.seconds | timestampDate}}</p>-->
+      <button ion-button icon-only item-end>
+        <ion-icon name="share-alt"></ion-icon>
+      </button>
+    </ion-item>
+    <img src="../../assets/img/medal.svg" class="img-button"
+         [ngClass]="{'black-white': badge.estado === 'no cumplido'}">
+    <ion-card-content>
+      <p *ngIf="badge.porcentaje < 100">Casi lo logras</p>
+      <p *ngIf="badge.porcentaje === 100">Tus esfuerzos valieron la pena</p>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

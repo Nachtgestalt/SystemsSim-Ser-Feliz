@@ -15,7 +15,7 @@ export class RecordVideoPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public viewCtrl: ViewController,
               private toast: ToastController,
-              public _relaxProv: RelaxProvProvider,) {
+              public _relaxProv: RelaxProvProvider) {
     this.createFormGroup();
   }
 

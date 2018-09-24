@@ -32,19 +32,24 @@ export class TrackingPage {
 
   ionViewCanEnter() {
     console.log('ionViewCanEnter MePage');
-    this._userProv.loadStorage().then( existe => {
-      if ( existe ) {
-        console.log('Cargo el storage!');
-      }
+    this._userProv.getUser().then(user => {
+      this._userProv.getUser$(user)
+        .subscribe(data => this.user = data[0],
+          error1 => console.error(error1));
     });
-
-    this.subscription = this._userProv.user$.subscribe(
-      data => {
-        this.user = data[0];
-        console.log('Observable user' + JSON.stringify(data));
-      },
-      error1 => console.log(JSON.stringify(error1))
-    );
+    // this._userProv.loadStorage().then( existe => {
+    //   if ( existe ) {
+    //     console.log('Cargo el storage!');
+    //   }
+    // });
+    //
+    // this.subscription = this._userProv.user$.subscribe(
+    //   data => {
+    //     this.user = data[0];
+    //     console.log('Observable user' + JSON.stringify(data));
+    //   },
+    //   error1 => console.log(JSON.stringify(error1))
+    // );
   }
 
   rating(value) {

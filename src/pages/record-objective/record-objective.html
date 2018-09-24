@@ -1,0 +1,48 @@
+<!--
+  Generated template for the RecordObjectivePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Guardar objetivo</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list no-lines>
+
+    <ion-item>
+      <ion-label color="primary" floating>¿Cual sera tu objetivo?</ion-label>
+      <ion-input type="text" [(ngModel)]="title"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Inicio</ion-label>
+      <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="startDay"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Fin</ion-label>
+      <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="endDay"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Recuerdame a las: </ion-label>
+      <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="notifyTime" (ionChange)="timeChange($event)"></ion-datetime>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>
+
+<ion-footer>
+
+  <button (click)="addNotifications()" ion-button color="primary" full>Guardar objetivo</button>
+  <!--<button (click)="cancelAll()" ion-button color="danger" full>Leave me alone!</button>-->
+
+</ion-footer>

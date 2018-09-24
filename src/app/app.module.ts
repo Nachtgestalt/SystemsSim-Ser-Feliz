@@ -15,7 +15,7 @@ import { GooglePlus } from '@ionic-native/google-plus';
 
 // Firebase
 import { AngularFireModule } from 'angularfire2';
-import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 import {AngularFirestoreModule} from "angularfire2/firestore";
 
@@ -57,7 +57,6 @@ import { ChatProvider } from '../providers/chat/chat';
 import {DirectivesModule} from "../directives/directives.module";
 import {Keyboard} from "@ionic-native/keyboard";
 import {PipesModule} from "../pipes/pipes.module";
-import { PaginationProvider } from '../providers/pagination/pagination';
 import { FcmProvider } from '../providers/fcm/fcm';
 import {RelaxPage} from "../pages/relax/relax";
 import {VideosPage} from "../pages/videos/videos";
@@ -72,6 +71,10 @@ import {File} from "@ionic-native/file";
 import {FileChooser} from "@ionic-native/file-chooser";
 import {FilePath} from "@ionic-native/file-path";
 import {RecordAudioPage} from "../pages/record-audio/record-audio";
+import {RecordObjectivePage} from "../pages/record-objective/record-objective";
+import {LocalNotifications} from "@ionic-native/local-notifications";
+import {BadgesPage} from "../pages/badges/badges";
+import { BadgesProvProvider } from '../providers/badges-prov/badges-prov';
 
 @NgModule({
   declarations: [
@@ -92,6 +95,7 @@ import {RecordAudioPage} from "../pages/record-audio/record-audio";
     SignUpProfessionalInfoPage,
     SignUpCredentialsPage,
     MenuPage,
+    BadgesPage,
     RelaxPage,
     VideosPage,
     VideosTherapistPage,
@@ -100,6 +104,7 @@ import {RecordAudioPage} from "../pages/record-audio/record-audio";
     RecordAudioPage,
     AudiosTherapistPage,
     ObjectivesPage,
+    RecordObjectivePage,
     MePage,
     EditProfilePage,
     MessagingPage,
@@ -121,7 +126,7 @@ import {RecordAudioPage} from "../pages/record-audio/record-audio";
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     NgxErrorsModule,
     ChartsModule,
     PipesModule
@@ -145,6 +150,7 @@ import {RecordAudioPage} from "../pages/record-audio/record-audio";
     SignUpCredentialsPage,
     TypeOfUserPage,
     MenuPage,
+    BadgesPage,
     RelaxPage,
     VideosPage,
     VideosTherapistPage,
@@ -153,6 +159,7 @@ import {RecordAudioPage} from "../pages/record-audio/record-audio";
     RecordAudioPage,
     AudiosTherapistPage,
     ObjectivesPage,
+    RecordObjectivePage,
     MePage,
     EditProfilePage,
     MessagingPage,
@@ -180,10 +187,11 @@ import {RecordAudioPage} from "../pages/record-audio/record-audio";
     TrackingProvider,
     TherapistsProvider,
     ChatProvider,
-    PaginationProvider,
     Firebase,
     FcmProvider,
-    RelaxProvProvider
+    RelaxProvProvider,
+    LocalNotifications,
+    BadgesProvProvider
   ]
 })
 export class AppModule {}

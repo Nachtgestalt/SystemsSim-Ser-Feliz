@@ -12,6 +12,7 @@ export class VideosPage {
 
   videos = [];
   idDocument = '';
+  videoUrl = '';
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public _relaxProv: RelaxProvProvider,
               public _userProv: UserProvider) {
@@ -30,6 +31,10 @@ export class VideosPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad VideosPage');
+  }
+
+  showVideo(id) {
+    this.videoUrl = id;
   }
 
 }

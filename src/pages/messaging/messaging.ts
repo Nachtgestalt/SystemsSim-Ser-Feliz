@@ -1,11 +1,8 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, Platform, ToastController} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import {ChatPage} from "../chat/chat";
-import {MenuPage} from "../menu/menu";
 import {ChatProvider} from "../../providers/chat/chat";
-import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from "angularfire2/firestore";
 import {Storage} from "@ionic/storage";
-import {map} from 'rxjs/operators'
 import {Subscription} from "rxjs/Rx";
 
 @IonicPage()
@@ -25,7 +22,6 @@ export class MessagingPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public _chatProv: ChatProvider,
               private storage: Storage,
-              private afS: AngularFirestore,
               private platform: Platform) {
   }
 

@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthProvider} from "../../providers/auth/auth";
 import {WelcomePage} from "../welcome/welcome";
 import {AngularFirestore} from "angularfire2/firestore";
-import {MenuPage} from "../menu/menu";
+import {UserProvider} from "../../providers/user/user";
 
 @IonicPage()
 @Component({
@@ -20,7 +20,8 @@ export class SignUpCredentialsPage {
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
               private auth: AuthProvider,
-              private afs: AngularFirestore) {
+              private afs: AngularFirestore,
+              public _userProv: UserProvider) {
     this.usuario = navParams.get('usuario');
     console.log(navParams.data);
     this.form = new FormGroup({
@@ -42,38 +43,26 @@ export class SignUpCredentialsPage {
     let loading = this.loadingCtrl.create({
       content: 'Creando cuenta'
     });
-    this.auth.signUp(credentials).then(
-      (data: any) => {
-        let id = data.user.uid;
-        console.log(data);
-        this.createUser(id).then(
-          () => {
-            loading.dismiss();
-            this.alertCtrl.create({
-              title:'Cuenta creada',
-              subTitle: 'Inicia sesión',
-              buttons: ['Aceptar']
-            }).present();
-            this.navCtrl.setRoot(WelcomePage)
-          },
-          error => {
-            this.alertCtrl.create({
-              title:'Error al crear usuario',
-              subTitle: 'Intente más tarde',
-              buttons: ['Aceptar']
-            }).present();
-            console.log(error)
-          }
-        )
-      },
-      error => console.log(error)
-    );
+    let alertContent = {
+      title: 'Cuenta creada',
+      subTitle: 'Inicia sesión',
+      buttons: ['Aceptar']
+    };
+    this.auth.signUp(credentials)
+      .then((data: any) => {
+          this.usuario.key = data.user.uid;
+          this._userProv.createUser(this.usuario)
+            .then(() => loading.dismiss())
+            .then(() => this.alertCtrl.create(alertContent).present())
+            .then(() => this.navCtrl.setRoot(WelcomePage))
+            .catch(error => {
+              this.alertCtrl.create({
+                title: 'Error al crear usuario',
+                subTitle: 'Intente más tarde',
+                buttons: ['Aceptar']
+              }).present();
+              console.log(error)
+            });
+        });
   }
-
-  createUser(id) {
-    this.usuario.key = id;
-    console.log(this.usuario);
-    return this.afs.collection(this.usuario.tipoUsuario).add(this.usuario);
-  }
-
 }

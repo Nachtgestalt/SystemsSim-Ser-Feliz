@@ -1,15 +1,7 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {TherapistsProvider} from "../../providers/therapists/therapists";
-import {map} from "rxjs/operators";
 import {MessagingPage} from "../messaging/messaging";
-
-/**
- * Generated class for the ListOfRequestPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({

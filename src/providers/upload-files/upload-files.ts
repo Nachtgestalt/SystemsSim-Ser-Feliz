@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {AngularFireDatabase} from "angularfire2/database";
 import {LoadingController, ToastController} from "ionic-angular";
 
 import * as firebase from 'firebase';
@@ -96,8 +95,8 @@ export class UploadFilesProvider {
   }
 
   setUrlImageUser(url) {
-    console.log(`${this.typeUser}/${this.idDocument}`);
-    this.userDocument = this.afS.doc(`${this.typeUser}/${this.idDocument}`);
+    console.log(`usuarios/${this.idDocument}`);
+    this.userDocument = this.afS.doc(`usuarios/${this.idDocument}`);
     this.userDocument.update({photoUrl: url});
   }
 
@@ -115,7 +114,6 @@ export class UploadFilesProvider {
   }
 
 }
-
 
 interface FileLoad {
   titulo?: string;

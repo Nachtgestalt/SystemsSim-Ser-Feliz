@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Storage} from "@ionic/storage";
 import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from "angularfire2/firestore";
-import * as moment from "moment";
 import {Platform} from "ionic-angular";
 import {Subscription} from "rxjs/Rx";
-import {map} from 'rxjs/operators';
+import {map, take} from 'rxjs/operators';
+import * as moment from "moment";
+import {UserProvider} from "../user/user";
 
 
 @Injectable()
@@ -18,61 +19,70 @@ export class TrackingProvider {
   typeUser: string;
   trackingToday = {};
 
-  dateNow = moment().toDate();
+  dateNow = moment();
   dateBeforeWeek = moment().subtract(7, 'days').toDate();
 
   fileName: string = moment().format('DD-MMMM-YYYY');
 
   constructor(private storage: Storage,
               private afS: AngularFirestore,
-              private platform: Platform) {
+              private platform: Platform,
+              public _userProv: UserProvider) {
     this.getTrackingToday();
   }
 
   getTrackingToday() {
-    let subscription: Subscription;
-    if (this.platform.is('cordova')) {
-      this.storage.get('idDocument').then(val => {
-        if (val) {
-          this.idDocument = val;
-        }
-      });
+    this._userProv.getIdDocument().then(idDocument => {
+        console.log('Filename: ', this.fileName);
+        this.trackingDocToday = this.afS.collection(`usuarios`).doc(`${idDocument}`)
+          .collection('seguimiento').doc(this.fileName);
 
-      this.storage.get('typeUser').then(val => {
-        if (val) {
-          this.typeUser = val;
-        }
-      });
-    } else {
-      this.idDocument = localStorage.getItem('idDocument');
-      this.typeUser = localStorage.getItem('typeUser');
-    }
+        this.trackingDocToday.valueChanges()
+          .pipe(
+            take(1)
+          )
+          .subscribe(
+            res => {
+              console.log('Data del documento de hoy: ', res);
+              if (!res) {
+                console.error('No hay data');
+                this.trackingToday = {
+                  'Estupendo': 0,
+                  'Muy bien': 0,
+                  'Bien': 0,
+                  'Regular': 0,
+                  'No bien': 0,
+                  'Mal': 0,
+                  'Desastroso': 0
+                };
+              } else {
+                this.trackingToday = res;
+              }
+              console.log(this.trackingToday);
+              // subscription.unsubscribe();
+            }
+          )
 
-    this.trackingDocToday = this.afS.collection(`${this.typeUser}`).doc(`${this.idDocument}`)
-      .collection('seguimiento').doc(this.fileName);
+      }
+    );
+    // if (this.platform.is('cordova')) {
+    //   this.storage.get('idDocument').then(val => {
+    //     if (val) {
+    //       this.idDocument = val;
+    //     }
+    //   });
+    //
+    //   this.storage.get('typeUser').then(val => {
+    //     if (val) {
+    //       this.typeUser = val;
+    //     }
+    //   });
+    // } else {
+    //   this.idDocument = localStorage.getItem('idDocument');
+    //   this.typeUser = localStorage.getItem('typeUser');
+    // }
 
-    this.trackingDocToday.valueChanges()
-      .subscribe(
-        res => {
-          console.log('Data del documento de hoy: ', res);
-          if(!res) {
-            console.error('No hay data');
-            this.trackingToday = {
-              'Estupendo': 0,
-              'Muy bien': 0,
-              'Bien': 0,
-              'Regular': 0,
-              'No bien': 0,
-              'Mal': 0,
-              'Desastroso': 0
-            };
-          } else {
-            this.trackingToday = res;
-          }
-          console.log(this.trackingToday);
-          // subscription.unsubscribe();
-        }
-      )
+
   }
 
   setTracking(value) {
@@ -95,7 +105,7 @@ export class TrackingProvider {
       this.typeUser = localStorage.getItem('typeUser');
     }
 
-    this.trackingCollection = this.afS.collection(`${this.typeUser}`).doc(`${this.idDocument}`)
+    this.trackingCollection = this.afS.collection(`usuarios`).doc(`${this.idDocument}`)
       .collection('seguimiento');
 
     return new Promise((resolve, reject) => {
@@ -106,8 +116,8 @@ export class TrackingProvider {
       console.log(data);
       this.trackingCollection.doc(fileName).set(data)
         .then(
-        () => resolve()
-      )
+          () => resolve()
+        )
         .catch(
           error => {
             console.log(error);
@@ -117,12 +127,14 @@ export class TrackingProvider {
     });
   }
 
-  getTrackingData() {
-    this.trackingCollectionToCharts = this.afS.collection(`${this.typeUser}`).doc(`${this.idDocument}`)
+  getTrackingData(idDocument) {
+    console.log('Dia inicio: ', this.dateNow);
+    console.log('Dia fin: ', this.dateBeforeWeek);
+    this.trackingCollectionToCharts = this.afS.collection(`usuarios`).doc(`${idDocument}`)
       .collection('seguimiento', ref => {
         return ref
           .where('fecha', '>=', this.dateBeforeWeek)
-          .where('fecha', '<=', this.dateNow)
+          .where('fecha', '<=', this.dateNow.add(5, 'minutes').toDate())
           .orderBy('fecha', 'asc')
       });
 
@@ -133,9 +145,11 @@ export class TrackingProvider {
             for (let seguimiento of res) {
               seguimiento.fecha = moment.unix(seguimiento.fecha.seconds).locale('es').format("DD MMMM") //parse integer
             }
+            // console.log(res);
             return res;
           }
-        )
+        ),
+        take(7)
       );
   }
 

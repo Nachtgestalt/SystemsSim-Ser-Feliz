@@ -1,18 +1,10 @@
 import {Component, ViewChild} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {DAYS_OF_WEEK} from "../../config";
-import * as moment from "moment";
 import {TrackingProvider} from "../../providers/tracking/tracking";
 import {Subscription} from "rxjs/Rx";
-import {map} from 'rxjs/operators';
 import {BaseChartDirective} from "ng2-charts";
-
-/**
- * Generated class for the TrackingChartsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {map} from "rxjs/operators";
+import {UserProvider} from "../../providers/user/user";
 
 @IonicPage()
 @Component({
@@ -74,81 +66,87 @@ export class TrackingChartsPage {
   public barChartData: any[] = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              public _trackingProv: TrackingProvider) {}
+              public _trackingProv: TrackingProvider,
+              public _userProv: UserProvider) {}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TrackingChartsPage');
-    this.data$ = this._trackingProv.getTrackingData()
-      .subscribe(
-        res => {
-          this.isDataAvailable = false;
-          this.barChartData = [];
-          this.barChartLabels = [];
-          this.estupendo = {
-            data: [],
-            label: 'Estupendo'
-          };
+    this._userProv.getIdDocument().then( idDocument => {
+      this.data$ = this._trackingProv.getTrackingData(idDocument)
+        .subscribe(
+          (res: any) => {
+            this.isDataAvailable = false;
+            this.barChartData = [];
+            this.barChartLabels = [];
+            this.estupendo = {
+              data: [],
+              label: 'Estupendo'
+            };
 
-          this.muyBien = {
-            data: [],
-            label: 'Muy bien'
-          };
+            this.muyBien = {
+              data: [],
+              label: 'Muy bien'
+            };
 
-          this.bien = {
-            data: [],
-            label: 'Bien'
-          };
+            this.bien = {
+              data: [],
+              label: 'Bien'
+            };
 
-          this.regular = {
-            data: [],
-            label: 'Regular'
-          };
+            this.regular = {
+              data: [],
+              label: 'Regular'
+            };
 
-          this.noBien = {
-            data: [],
-            label: 'No bien'
-          };
+            this.noBien = {
+              data: [],
+              label: 'No bien'
+            };
 
-          this.mal = {
-            data: [],
-            label: 'Mal'
-          };
+            this.mal = {
+              data: [],
+              label: 'Mal'
+            };
 
-          this.desastroso = {
-            data: [],
-            label: 'Desastroso'
-          };
+            this.desastroso = {
+              data: [],
+              label: 'Desastroso'
+            };
 
-          console.log(res);
-          for (let seguimiento of res) {
-            this.estupendo.data.push(seguimiento.Estupendo);
-            this.muyBien.data.push(seguimiento['Muy bien']);
-            this.bien.data.push(seguimiento['Bien']);
-            this.regular.data.push(seguimiento.Regular);
-            this.noBien.data.push(seguimiento['No bien']);
-            this.mal.data.push(seguimiento['Mal']);
-            this.desastroso.data.push(seguimiento['Desastroso']);
-            this.barChartLabels.push(seguimiento.fecha);
+            console.log(res);
+            for (let seguimiento of res) {
+              this.estupendo.data.push(seguimiento.Estupendo);
+              this.muyBien.data.push(seguimiento['Muy bien']);
+              this.bien.data.push(seguimiento['Bien']);
+              this.regular.data.push(seguimiento.Regular);
+              this.noBien.data.push(seguimiento['No bien']);
+              this.mal.data.push(seguimiento['Mal']);
+              this.desastroso.data.push(seguimiento['Desastroso']);
+              this.barChartLabels.push(seguimiento.fecha);
+            }
+            setTimeout( () =>{
+              this.barChartData.push(this.estupendo);
+              this.barChartData.push(this.muyBien);
+              this.barChartData.push(this.bien);
+              this.barChartData.push(this.regular);
+              this.barChartData.push(this.noBien);
+              this.barChartData.push(this.mal);
+              this.barChartData.push(this.desastroso);
+              console.log('Barchar Data: ', this.barChartData);
+              console.log('Barchar Labels: ', this.barChartLabels);
+              this.isDataAvailable = true;
+            }, 200)
+          },
+          error1 => {
+            console.log('Error', error1)
+          },
+          () => {
           }
-          setTimeout( () =>{
-            this.barChartData.push(this.estupendo);
-            this.barChartData.push(this.muyBien);
-            this.barChartData.push(this.bien);
-            this.barChartData.push(this.regular);
-            this.barChartData.push(this.noBien);
-            this.barChartData.push(this.mal);
-            this.barChartData.push(this.desastroso);
-            console.log('Barchar Data: ', this.barChartData);
-            console.log('Barchar Labels: ', this.barChartLabels);
-            this.isDataAvailable = true;
-          }, 200)
-        },
-        error1 => {
-          console.log('Error', error1)
-        },
-        () => {
-        }
-      );
+        );
+
+      }
+    );
+
   }
 
   ionViewCanEnter() {

@@ -1,9 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {Content, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {ChatProvider} from "../../providers/chat/chat";
-import {map} from "rxjs/operators";
-import {UtilsProvider} from "../../providers/utils/utils";
-import {PaginationProvider} from "../../providers/pagination/pagination";
+import {UserProvider} from "../../providers/user/user";
 
 @IonicPage()
 @Component({
@@ -22,29 +20,27 @@ export class ChatPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public _chatProv: ChatProvider,
-              public _paginationProv: PaginationProvider) {
-    this._chatProv.loadStorage().then();
-    this.typeUser = this._chatProv.typeUser;
-    this.meDoc = this._chatProv.idDocument;
+              public _userProv: UserProvider) {
     this.friend = this.navParams.get('friend');
-    this.typeUser === 'terapeutas' ? this.queryDoc = `${this.friend.id}_${this.meDoc}/mensajes` :
-      this.queryDoc = `relaciones/${this.meDoc}_${this.friend.id}/mensajes`;
+    this._userProv.getUser().then(user => {
+      this.typeUser = user.tipoUsuario;
+      this.meDoc = user.id;
+      this._chatProv.loadMessages(this.friend.id, this.meDoc)
+        .subscribe(
+          res => {
+            console.log(res);
+            this.messages = [];
+            this.messages = res;
+            setTimeout(
+              () => {
+                this.scrollBottom();
+              }, 50);
+            console.log('Mensajes: ', this.messages);
+          }
+        );
+    });
     console.log('ionViewDidLoad ChatPage');
     // this._paginationProv.init(this.queryDoc, 'timestamp',{prepend: false });
-
-    this._chatProv.loadMessages(this.friend.id)
-      .subscribe(
-        res => {
-          console.log(res);
-          this.messages = [];
-          this.messages = res;
-          setTimeout(
-            () => {
-              this.scrollBottom();
-            }, 50);
-          console.log('Mensajes: ', this.messages);
-        }
-      );
   }
 
   ionViewDidLoad() {
@@ -111,26 +107,14 @@ export class ChatPage {
   }
 
   sendText() {
-    this._chatProv.saveMessage(this.typingMessage, this.friend.id, this.meDoc).then(
-      () => {
+    this._chatProv.saveMessage(this.typingMessage, this.friend.id, this.meDoc)
+      .then(() => {
         console.log('Se envio con exito');
         this.typingMessage = '';
-      }
-    )
+      })
       .catch(
         (error) => console.log('Error al enviar' + JSON.stringify(error))
       );
-    // console.log(this.typingMessage);
-    // this.messages.push({
-    //   isMe: true,
-    //   type: 'text',
-    //   body: this.typingMessage,
-    //   timestamp: 'Oct 13, 2017 9:55am'
-    // });
-    // this.typingMessage = '';
-    // this.scrollBottom();
-    //
-    // this.fakeReply();
   }
 
   fakeReply() {
@@ -155,15 +139,6 @@ export class ChatPage {
   toggleGiphy() {
     this.showGiphy = !this.showGiphy;
     this.content.resize();
-  }
-
-  doInfinite() {
-    return new Promise((resolve) => {
-      this._paginationProv.more();
-      this.scrollBottom();
-      resolve();
-    });
-
   }
 
   trackByFn(index, item) {

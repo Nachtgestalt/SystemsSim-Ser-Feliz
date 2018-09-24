@@ -19,28 +19,33 @@ export class MePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public modalCtrl: ModalController,
-              public _userProv: UserProvider
-              ) {}
+              public _userProv: UserProvider) {
+  }
 
   ionViewCanEnter() {
     console.log('ionViewCanEnter MePage');
-    this._userProv.loadStorage().then( existe => {
-      if ( existe ) {
-        console.log('Cargo el storage!');
-      }
+    this._userProv.getUser().then(user => {
+      this._userProv.getUser$(user)
+        .subscribe(data => this.user = data[0],
+          error1 => console.error(error1));
     });
+    // this._userProv.loadStorage().then( existe => {
+    //   if ( existe ) {
+    //     console.log('Cargo el storage!');
+    //   }
+    // });
 
-    this.subscription = this._userProv.user$.subscribe(
-      data => {
-        this.user = data[0];
-        console.log('Observable user' + JSON.stringify(data));
-      },
-      error1 => console.log(JSON.stringify(error1))
-    );
+    // this.subscription = this._userProv.user$.subscribe(
+    //   data => {
+    //     this.user = data[0];
+    //     console.log('Observable user' + JSON.stringify(data));
+    //   },
+    //   error1 => console.log(JSON.stringify(error1))
+    // );
   }
 
-  ionViewCanLeave	() {
-    this.subscription.unsubscribe();
+  ionViewCanLeave() {
+    // this.subscription.unsubscribe();
   }
 
   slideChanged() {
@@ -54,7 +59,7 @@ export class MePage {
   }
 
   goToMenu() {
-    this.navCtrl.pop( {
+    this.navCtrl.pop({
       direction: 'forward'
     });
   }

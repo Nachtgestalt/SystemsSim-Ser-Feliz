@@ -12,6 +12,7 @@ import {ListOfRequestPage} from "../list-of-request/list-of-request";
 import {Storage} from "@ionic/storage";
 import {FcmProvider} from "../../providers/fcm/fcm";
 import {RelaxPage} from "../relax/relax";
+import {BadgesPage} from "../badges/badges";
 
 @IonicPage()
 @Component({
@@ -29,33 +30,43 @@ export class MenuPage {
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
+              public _userProv: UserProvider,
               public fcm: FcmProvider,
               public toastCtrl: ToastController,
-              public _userProv: UserProvider,
-              private afAuth: AngularFireAuth,
-              private storage: Storage,
-              private platform: Platform) {
-    this._userProv.loadStorage().then(existe => {
-      if (existe) {
-        this.subscription = this._userProv.user$.subscribe(
-          data => {
+              private afAuth: AngularFireAuth) {
+
+    this._userProv.getUser().then(user => {
+      this._userProv.getUser$(user)
+        .subscribe(data => {
             this.user = data[0];
             this.fcm.getToken(this.user.id);
             this._userProv.setIdDocumentAndType(this.user.id, this.user.tipoUsuario);
-            console.log('Observable user', data);
+            console.log('Observable user', user);
           },
-          error1 => console.log(JSON.stringify(error1))
-        );
-      }
+          error1 => console.error(error1));
     });
-    if (this.platform.is('cordova')) {
-      this.fcm.listenToNotifications().subscribe();
-    }
+    // this._userProv.loadStorage().then(existe => {
+    //   if (existe) {
+    //     this.subscription = this._userProv.user$.subscribe(
+    //       data => {
+    //         this.user = data[0];
+    //         this.fcm.getToken(this.user.id);
+    //         this._userProv.setIdDocumentAndType(this.user.id, this.user.tipoUsuario);
+    //         console.log('Observable user', data);
+    //       },
+    //       error1 => console.log(JSON.stringify(error1))
+    //     );
+    //   }
+    // });
   }
 
   ionViewCanEnter() {
-    this.loadStorage().then();
+    // this.loadStorage().then();
     console.log(this.typeUser);
+  }
+
+  ionViewWillLeave() {
+    // this.subscription.unsubscribe();
   }
 
   ionViewDidLoad() {
@@ -74,9 +85,9 @@ export class MenuPage {
 
   goToMessaging() {
     this.navCtrl.push(MessagingPage, {
-      tipoUsuario: this.typeUser,
+      tipoUsuario: this.user.tipoUsuario,
       usuario: this.user,
-      idDocument: this.idDocument
+      idDocument: this.user.id
     }, {
       direction: 'forward'
     });
@@ -90,9 +101,19 @@ export class MenuPage {
 
   goToListOfRequest() {
     this.navCtrl.push(ListOfRequestPage, {
-      tipoUsuario: this.typeUser,
+      tipoUsuario: this.user.tipoUsuario,
       usuario: this.user,
-      idDocument: this.idDocument
+      idDocument: this.user.id
+    }, {
+      direction: 'forward'
+    });
+  }
+
+  goToBadges() {
+    this.navCtrl.push(BadgesPage, {
+      tipoUsuario: this.user.tipoUsuario,
+      usuario: this.user,
+      idDocument: this.user.id
     }, {
       direction: 'forward'
     });
@@ -100,9 +121,9 @@ export class MenuPage {
 
   goToRelax() {
     this.navCtrl.push(RelaxPage, {
-      tipoUsuario: this.typeUser,
+      tipoUsuario: this.user.tipoUsuario,
       usuario: this.user,
-      idDocument: this.idDocument
+      idDocument: this.user.id
     }, {
       direction: 'forward'
     });
@@ -116,26 +137,26 @@ export class MenuPage {
       })
   }
 
-  loadStorage() {
-    return new Promise((resolve, reject) => {
-      if (this.platform.is('cordova')) {
-        this.storage.get('idDocument').then(val => {
-          if (val) {
-            this.idDocument = val;
-          }
-        });
-        this.storage.get('typeUser').then(val => {
-          if (val) {
-            this.typeUser = val;
-          }
-        });
-        resolve();
-      } else {
-        this.idDocument = localStorage.getItem('idDocument');
-        this.typeUser = localStorage.getItem('typeUser');
-        resolve();
-      }
-    });
-  }
+  // loadStorage() {
+  //   return new Promise((resolve, reject) => {
+  //     if (this.platform.is('cordova')) {
+  //       this.storage.get('idDocument').then(val => {
+  //         if (val) {
+  //           this.idDocument = val;
+  //         }
+  //       });
+  //       this.storage.get('typeUser').then(val => {
+  //         if (val) {
+  //           this.typeUser = val;
+  //         }
+  //       });
+  //       resolve();
+  //     } else {
+  //       this.idDocument = localStorage.getItem('idDocument');
+  //       this.typeUser = localStorage.getItem('typeUser');
+  //       resolve();
+  //     }
+  //   });
+  // }
 
 }

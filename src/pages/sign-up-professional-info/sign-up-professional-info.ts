@@ -2,9 +2,9 @@ import {Component} from '@angular/core';
 import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {SignUpCredentialsPage} from "../sign-up-credentials/sign-up-credentials";
-import {MenuPage} from "../menu/menu";
 import {AngularFirestore} from "angularfire2/firestore";
 import {WelcomePage} from "../welcome/welcome";
+import {UserProvider} from "../../providers/user/user";
 
 
 @IonicPage()
@@ -55,9 +55,9 @@ export class SignUpProfessionalInfoPage {
   ];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              private afs: AngularFirestore,
               public loadingCtrl: LoadingController,
-              public alertCtrl: AlertController,) {
+              public alertCtrl: AlertController,
+              public _userProv: UserProvider) {
     this.user = this.navParams.get('usuario');
     this.user.provider === 'email' ? this.msgButton = 'Siguiente' : this.msgButton = 'Registrarte';
     this.form = new FormGroup({
@@ -76,26 +76,25 @@ export class SignUpProfessionalInfoPage {
   }
 
   goToNextStep() {
+    let loading = this.loadingCtrl.create({
+      content: 'Creando cuenta'
+    });
+    let alertContent = {
+      title: 'Cuenta creada',
+      subTitle: 'Inicia sesión',
+      buttons: ['Aceptar']
+    };
     this.user.informacion_profesional = this.form.value;
     if (this.user.provider === 'email') {
       this.navCtrl.push(SignUpCredentialsPage, {
         usuario: this.user
       });
     } else {
-      let loading = this.loadingCtrl.create({
-        content: 'Creando cuenta'
-      });
-      this.createUser().then(
-        () => {
-          loading.dismiss();
-          this.alertCtrl.create({
-            title: 'Cuenta creada',
-            subTitle: 'Inicia sesión',
-            buttons: ['Aceptar']
-          }).present();
-          this.navCtrl.setRoot(WelcomePage)
-        },
-        error => {
+      this._userProv.createUser(this.user)
+        .then(() => loading.dismiss())
+        .then(() => this.alertCtrl.create(alertContent).present())
+        .then(() => this.navCtrl.setRoot(WelcomePage))
+        .catch(error => {
           this.alertCtrl.create({
             title: 'Error al crear usuario',
             subTitle: 'Intente más tarde',
@@ -105,11 +104,4 @@ export class SignUpProfessionalInfoPage {
         });
     }
   }
-
-  createUser() {
-    console.log(this.user);
-    return this.afs.collection('terapeutas').add(this.user);
-  }
-
-
 }

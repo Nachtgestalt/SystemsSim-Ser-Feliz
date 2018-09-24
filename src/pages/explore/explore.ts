@@ -2,16 +2,15 @@ import {Component, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {App, IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
 import {UserProvider} from "../../providers/user/user";
 
-import {AngularFireAuth} from 'angularfire2/auth';
 import {MenuPage} from "../menu/menu";
 import {Direction, StackConfig, SwingCardComponent, SwingStackComponent} from "angular2-swing";
 import {MatchedPage} from "../matched/matched";
 
-import * as _ from 'lodash';
 import {MessagingPage} from "../messaging/messaging";
 import {Subscription} from "rxjs/Rx";
 import {TherapistsProvider} from "../../providers/therapists/therapists";
 import {ProfilePage} from "../profile/profile";
+import * as _ from 'lodash';
 
 
 @IonicPage()
@@ -29,6 +28,7 @@ export class ExplorePage {
   stackConfig: StackConfig;
   users: any[];
   isLoading: boolean = true;
+  noUsers: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public userProv: UserProvider,
@@ -71,8 +71,9 @@ export class ExplorePage {
               this.addNewCard();
             }
             this.isLoading = false;
-          } else {
-            this.isLoading = true;
+          } else if(res.length === 0) {
+            this.isLoading = false;
+            this.noUsers = true;
           }
         }
       );

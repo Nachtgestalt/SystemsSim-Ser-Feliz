@@ -1,19 +1,11 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {VideosPage} from "../videos/videos";
 import {AudiosPage} from "../audios/audios";
 import {ObjectivesPage} from "../objectives/objectives";
-import {Storage} from "@ionic/storage";
 import {VideosTherapistPage} from "../videos-therapist/videos-therapist";
 import {AudiosTherapistPage} from "../audios-therapist/audios-therapist";
 import {UserProvider} from "../../providers/user/user";
-
-/**
- * Generated class for the RelaxPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -29,8 +21,6 @@ export class RelaxPage {
   isReady = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              private storage: Storage,
-              private platform: Platform,
               public _userProv: UserProvider) {
   }
 

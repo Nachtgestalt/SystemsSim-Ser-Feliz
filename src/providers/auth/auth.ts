@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from "angularfire2/auth";
 import * as firebase from 'firebase/app';
-import {GooglePlus} from "@ionic-native/google-plus";
 import {AngularFirestore, AngularFirestoreCollection} from "angularfire2/firestore";
 import {UserProvider} from "../user/user";
 import {Subscription} from "rxjs/Rx";
+import {map, take} from "rxjs/operators";
+import {UtilsProvider} from "../utils/utils";
 
 
 @Injectable()
@@ -13,31 +14,40 @@ export class AuthProvider {
   private user: firebase.User;
   value$: Subscription;
 
-  constructor(public  afAuth: AngularFireAuth, private googlePlus: GooglePlus,
+  constructor(public  afAuth: AngularFireAuth,
               private afs: AngularFirestore,
-              private _userProv: UserProvider) {
+              private _userProv: UserProvider,
+              public _utilsProv: UtilsProvider) {
     firebase.auth().useDeviceLanguage();
     afAuth.authState.subscribe(user => {
       this.user = user;
     });
   }
 
-  verifyAccountExist(source, uid) {
+  verifyAccountExist(uid) {
     return new Promise((resolve, reject) => {
-        console.log(`uid = ${uid} - source: ${source}`);
-        this.userCollection = this.afs.collection(source, ref => {
+        this.userCollection = this.afs.collection('usuarios', ref => {
           return ref.where('key', '==', uid)
         });
 
-        this.value$ = this.userCollection.valueChanges().subscribe(
-          data => {
-            console.log('Usuario: ' + JSON.stringify(data[0]));
+        this.userCollection.snapshotChanges()
+          .pipe(
+            map(actions => {
+              return actions.map(a => {
+                const data = a.payload.doc.data();
+                data.id = a.payload.doc.id;
+                data.age = this._utilsProv.getAgeOnlyYear(data.fecha_nacimiento);
+                console.log(data);
+                return data;
+              });
+            }),
+            take(1)
+          ).subscribe(data => {
+            console.log('Usuario: ', data);
             if (data.length !== 0) {
-              this._userProv.setInStorage(data[0]);
-              this.value$.unsubscribe();
+              this._userProv.setUserInStorage(data[0]);
               resolve(true);
             } else {
-              this.value$.unsubscribe();
               resolve(false);
             }
           });

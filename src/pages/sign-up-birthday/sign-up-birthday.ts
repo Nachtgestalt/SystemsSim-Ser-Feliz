@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {SignUpGenderPage} from "../sign-up-gender/sign-up-gender";
-import {FormControl, FormControlName, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @IonicPage()
 @Component({
